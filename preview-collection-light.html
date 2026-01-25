@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LUXE | Luxury Collection Listing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#D4AF37", // Classic Gold
+                        "gold-dark": "#AA8E2F",
+                        "background-light": "#fdfdfd",
+                        "background-dark": "#0a0a0a",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        :root {
+            --accent-gold: #D4AF37;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+            font-size: 20px;
+        }
+        .product-card:hover .quick-add {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .custom-checkbox:checked + span {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white transition-colors duration-300">
+<div class="layout-container flex h-full grow flex-col">
+<header class="sticky top-0 z-50 w-full border-b border-gray-100 dark:border-white/5 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md px-6 md:px-10 lg:px-20 py-5">
+<div class="max-w-[1440px] mx-auto flex items-center justify-between gap-8">
+<div class="flex items-center gap-12">
+<div class="flex items-center gap-2">
+<div class="text-primary">
+<svg class="w-7 h-7" fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z"></path>
+</svg>
+</div>
+<h1 class="text-2xl font-light tracking-[0.2em] uppercase">Luxe</h1>
+</div>
+<nav class="hidden lg:flex items-center gap-10">
+<a class="text-[10px] uppercase tracking-[0.2em] font-medium hover:text-primary transition-colors" href="#">New Arrivals</a>
+<a class="text-[10px] uppercase tracking-[0.2em] font-medium hover:text-primary transition-colors" href="#">Brands</a>
+<a class="text-[10px] uppercase tracking-[0.2em] font-medium hover:text-primary transition-colors" href="#">Women</a>
+<a class="text-[10px] uppercase tracking-[0.2em] font-medium hover:text-primary transition-colors" href="#">Men</a>
+<a class="text-[10px] uppercase tracking-[0.2em] font-medium hover:text-primary transition-colors" href="#">Accessories</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center border-b border-gray-200 dark:border-white/10 px-0 py-1 focus-within:border-primary transition-all">
+<span class="material-symbols-outlined opacity-50 scale-75">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-xs w-48 xl:w-56 placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="SEARCH COLLECTION..." type="text"/>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-2 hover:text-primary transition-colors" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined">contrast</span>
+</button>
+<button class="p-2 hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="absolute top-2 right-2 w-1.5 h-1.5 bg-primary rounded-full"></span>
+</button>
+<button class="p-2 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">person</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-[1440px] mx-auto w-full px-6 md:px-10 lg:px-20 py-12">
+<div class="flex items-center gap-3 mb-12">
+<a class="text-[10px] uppercase tracking-widest text-gray-400 hover:text-primary" href="#">Home</a>
+<span class="text-[10px] text-gray-300">/</span>
+<a class="text-[10px] uppercase tracking-widest text-gray-400 hover:text-primary" href="#">Collections</a>
+<span class="text-[10px] text-gray-300">/</span>
+<span class="text-[10px] uppercase tracking-widest font-semibold">All Pieces</span>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 border-b border-gray-100 dark:border-white/5 pb-12">
+<div>
+<h2 class="text-6xl font-extralight tracking-tight mb-4">The Collection</h2>
+<p class="text-gray-400 font-light tracking-wide italic">Curated excellence for the discerning individual.</p>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-[10px] uppercase tracking-[0.3em] text-gray-400">Sort by</span>
+<button class="flex items-center gap-8 border-b border-gray-200 dark:border-white/10 pb-1 text-xs uppercase tracking-widest font-medium hover:border-primary transition-colors">
+                    Newest First
+                    <span class="material-symbols-outlined scale-75">expand_more</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col lg:flex-row gap-16">
+<aside class="w-full lg:w-64 flex-shrink-0 space-y-10">
+<div>
+<h4 class="text-[11px] uppercase tracking-[0.3em] font-bold text-gray-900 dark:text-white mb-10">Refine Selection</h4>
+<div class="space-y-10">
+<div class="pb-6">
+<button class="flex items-center justify-between w-full mb-6 group">
+<span class="text-[10px] font-bold uppercase tracking-[0.2em]">Category</span>
+<span class="material-symbols-outlined scale-75">remove</span>
+</button>
+<div class="space-y-4">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="custom-checkbox w-4 h-4 rounded-none border-gray-300 dark:border-white/20 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+<span class="text-[11px] uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Handbags (412)</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="custom-checkbox w-4 h-4 rounded-none border-gray-300 dark:border-white/20 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+<span class="text-[11px] uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Watches (215)</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="custom-checkbox w-4 h-4 rounded-none border-gray-300 dark:border-white/20 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+<span class="text-[11px] uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Jewelry (189)</span>
+</label>
+</div>
+</div>
+<div class="border-t border-gray-100 dark:border-white/5 pt-8">
+<button class="flex items-center justify-between w-full mb-4 group">
+<span class="text-[10px] font-bold uppercase tracking-[0.2em]">Designer</span>
+<span class="material-symbols-outlined scale-75">add</span>
+</button>
+</div>
+<div class="border-t border-gray-100 dark:border-white/5 pt-8">
+<button class="flex items-center justify-between w-full mb-4 group">
+<span class="text-[10px] font-bold uppercase tracking-[0.2em]">Price</span>
+<span class="material-symbols-outlined scale-75">add</span>
+</button>
+</div>
+</div>
+</div>
+</aside>
+<div class="flex-1">
+<div class="flex flex-wrap gap-3 mb-12">
+<div class="flex items-center gap-3 bg-white dark:bg-white/5 text-primary border border-primary px-4 py-2 text-[10px] font-bold uppercase tracking-widest">
+                        Category: Handbags
+                        <button class="hover:text-gold-dark transition-colors">
+<span class="material-symbols-outlined !text-[12px]">close</span>
+</button>
+</div>
+<div class="flex items-center gap-2 text-gray-400 px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer">
+                        Clear Filters
+                    </div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-y-16 gap-x-10">
+<div class="product-card group cursor-pointer">
+<div class="relative aspect-[4/5] mb-6 bg-gray-50 dark:bg-white/5 overflow-hidden">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-1000" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDPQ-Efx6q3JZMEUcofi7KMrDs1t2b6a05on3NxHoShPLCkFoRjwNieloo4Kb5CUEO5eBfQXULqVBg6vC6I3ZHR2mRP7drRlwyyVzdLhvBcW6LSUCO-SeT4rHSHGYtJlKKYyGmX8rc7QQPX3nQuEbFSzwmtZIRIdC-e8wjw0NorTbBJi6n_Cei-iaHpGanStxlYG0ckUr8l8yjpN5D1GIX141AS7biXg1L80T2PMgsqyBIRKrk6psagA0-0KLQ68BbT0uc1fw4DxRlh");'></div>
+<div class="quick-add absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-black/95 backdrop-blur-sm py-4 border-t-2 border-primary flex items-center justify-center gap-3 opacity-0 translate-y-4 transition-all duration-300">
+<span class="material-symbols-outlined !text-sm text-primary">shopping_cart</span>
+<span class="text-[10px] font-bold uppercase tracking-[0.2em]">Quick Add</span>
+</div>
+<div class="absolute top-4 left-4 bg-primary text-white text-[9px] font-bold uppercase px-3 py-1.5 tracking-[0.2em]">Premium Selection</div>
+</div>
+<div class="space-y-2 text-center">
+<h3 class="text-[10px] uppercase tracking-[0.3em] font-medium text-gray-400 group-hover:text-primary transition-colors">Signature Label</h3>
+<p class="text-xs font-light tracking-widest truncate">Horsebit 1955 Shoulder Bag</p>
+<p class="text-xs font-semibold tracking-widest">$2,980</p>
+</div>
+</div>
+<div class="product-card group cursor-pointer">
+<div class="relative aspect-[4/5] mb-6 bg-gray-50 dark:bg-white/5 overflow-hidden">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-1000" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCRCicK80xQs-bZGGZwafgr2FAVhGbTYfKfhYEeGHRDwCfgxyISfWgS0fwTkZjycGmOTHdkdx71B4zx1sLzZYofhR_d8LUYtNpC8Y12txV7Oq2Vw-YoYhIQxo342dNTeVduyYDcLd9vOwZyJ8FnXsMKscg-PtoPX4dTqW-BoWitlt1xSjiH1EfxJsAGVLN_FsrHdhvV3ohtOQ-_aFX0qg0jC4iXs8ybhevVBa6WzziV0pBCcRkUTQqG31X23-PuuH7W1JrRX6vP1F9R");'></div>
+<div class="quick-add absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-black/95 backdrop-blur-sm py-4 border-t-2 border-primary flex items-center justify-center gap-3 opacity-0 translate-y-4 transition-all duration-300">
+<span class="material-symbols-outlined !text-sm text-primary">shopping_cart</span>
+<span class="text-[10px] font-bold uppercase tracking-[0.2em]">Quick Add</span>
+</div>
+<div class="absolute top-4 left-4 bg-primary text-white text-[9px] font-bold uppercase px-3 py-1.5 tracking-[0.2em]">Limited Edition</div>
+</div>
+<div class="space-y-2 text-center">
+<h3 class="text-[10px] uppercase tracking-[0.3em] font-medium text-gray-400 group-hover:text-primary transition-colors">Artisan House</h3>
+<p class="text-xs font-light tracking-widest truncate">Birkin 25 Gold Hardware</p>
+<p class="text-xs font-semibold tracking-widest">$12,400</p>
+</div>
+</div>
+<div class="product-card group cursor-pointer">
+<div class="relative aspect-[4/5] mb-6 bg-gray-50 dark:bg-white/5 overflow-hidden">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-1000" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCwDr6mWnccLPZuG3fMlIK1VertOq3ykTyBEDyv_a7R_irAp3MjQRcF2D4X2c8t6YyR7rml2ZVNp-QQyNSjfqe-WI79LCBttt6NtiB1vf9168ILMWgGVM8k3OBR5fGNiJGvRw2wI483eu7516-hRcPsNoejA8y_KFQGshmCVYySo6L7hhayp_Zg_9ejl79a8hgHvDnH83AvSk2YsyeeGEf2lBjwTjGmVr58dLGlyOjAMBcXvK77y5eCoyCUX6dWo_2q-Jqt3bPp0YDb");'></div>
+<div class="quick-add absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-black/95 backdrop-blur-sm py-4 border-t-2 border-primary flex items-center justify-center gap-3 opacity-0 translate-y-4 transition-all duration-300">
+<span class="material-symbols-outlined !text-sm text-primary">shopping_cart</span>
+<span class="text-[10px] font-bold uppercase tracking-[0.2em]">Quick Add</span>
+</div>
+</div>
+<div class="space-y-2 text-center">
+<h3 class="text-[10px] uppercase tracking-[0.3em] font-medium text-gray-400 group-hover:text-primary transition-colors">Milan Studio</h3>
+<p class="text-xs font-light tracking-widest truncate">Re-Nylon Modern Backpack</p>
+<p class="text-xs font-semibold tracking-widest">$1,850</p>
+</div>
+</div>
+<div class="product-card group cursor-pointer">
+<div class="relative aspect-[4/5] mb-6 bg-gray-50 dark:bg-white/5 overflow-hidden">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-1000" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhTJYZvve7lApZ9CI_D352n235_i6jmEr2x7BT_E9ajARj1yhhXVB8OK4yV6VdxzNhdDTNRKJg0AYkg9leg1mmTa1E-RsUZMJboRA_cLzuVpqnAQ4pqhZrDEcdBiUi1UZvAQeAKPQU-y6nU6bXnotFrnl2UPWNKLbN02Avym-_YTebUuatr_3sBr2UpsFFHHtJ7CC8iCT6n4IzNNyiasibpgLgjpy3lM4wdY7RqlyUZCQkG2yA47Jddnx5B9vchdILNP7T5ZMZTvJk");'></div>
+<div class="quick-add absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-black/95 backdrop-blur-sm py-4 border-t-2 border-primary flex items-center justify-center gap-3 opacity-0 translate-y-4 transition-all duration-300">
+<span class="material-symbols-outlined !text-sm text-primary">shopping_cart</span>
+<span class="text-[10px] font-bold uppercase tracking-[0.2em]">Quick Add</span>
+</div>
+</div>
+<div class="space-y-2 text-center">
+<h3 class="text-[10px] uppercase tracking-[0.3em] font-medium text-gray-400 group-hover:text-primary transition-colors">Heritage Brand</h3>
+<p class="text-xs font-light tracking-widest truncate">Neverfull MM Monogram</p>
+<p class="text-xs font-semibold tracking-widest">$2,030</p>
+</div>
+</div>
+<div class="product-card group cursor-pointer">
+<div class="relative aspect-[4/5] mb-6 bg-gray-50 dark:bg-white/5 overflow-hidden">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-1000" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDXroFxsLDwLOJ6sk4RXgmhv_48Yq3V9zUJQsCfprq5zNpFAmppMIX2yOOt-UZWlontZNXQUmFGPL8vzV0tBhJPU29nNCRHYDcfSLbbMYed5f--r5-bsU5Pp3qG2TUvLnanXYfzFDYdfzsesd9opBQ6RB6ZhMccFJhenVVLH-U7Anom6n2qdqQugmHuLDZCr18_xor_Xf9KJT0pj-OvCnk_5MqZtTy9PcJmajdgOaI6aVBvwAIBn9G1rfo6CSn0DfCBZap0TpQGWSCE");'></div>
+<div class="quick-add absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-black/95 backdrop-blur-sm py-4 border-t-2 border-primary flex items-center justify-center gap-3 opacity-0 translate-y-4 transition-all duration-300">
+<span class="material-symbols-outlined !text-sm text-primary">shopping_cart</span>
+<span class="text-[10px] font-bold uppercase tracking-[0.2em]">Quick Add</span>
+</div>
+<div class="absolute top-4 left-4 bg-primary text-white text-[9px] font-bold uppercase px-3 py-1.5 tracking-[0.2em]">Heritage Piece</div>
+</div>
+<div class="space-y-2 text-center">
+<h3 class="text-[10px] uppercase tracking-[0.3em] font-medium text-gray-400 group-hover:text-primary transition-colors">Signature Label</h3>
+<p class="text-xs font-light tracking-widest truncate">GG Marmont Mini Matelassé</p>
+<p class="text-xs font-semibold tracking-widest">$1,550</p>
+</div>
+</div>
+<div class="product-card group cursor-pointer">
+<div class="relative aspect-[4/5] mb-6 bg-gray-50 dark:bg-white/5 overflow-hidden">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-1000" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBfwBoVDEZ3bU1eyKJ7_lkiTeKO42zaL3JOd4YQoJdViGFDsXH-Jq8ewCdbazUG0v6yBtLxTtERWFb7eB8eHAjI_yQdet3d95BpJK4qmhZHKXRZ_xR0ZeastOtg5DVcIZe463PuWjvh6uL0c2t1jYppaxz2UkllyI2M5yCwuhis8CeXhCS2euFiouro1XwOgMBgUeWj8-_0s83TGRX-egyoJZIGuA7LiLejCypVOVZi5C_SRlXMWUHYf-78uWoj5LYvhr271aUx6WsC");'></div>
+<div class="quick-add absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-black/95 backdrop-blur-sm py-4 border-t-2 border-primary flex items-center justify-center gap-3 opacity-0 translate-y-4 transition-all duration-300">
+<span class="material-symbols-outlined !text-sm text-primary">shopping_cart</span>
+<span class="text-[10px] font-bold uppercase tracking-[0.2em]">Quick Add</span>
+</div>
+<div class="absolute top-4 left-4 bg-primary text-white text-[9px] font-bold uppercase px-3 py-1.5 tracking-[0.2em]">Limited Edition</div>
+</div>
+<div class="space-y-2 text-center">
+<h3 class="text-[10px] uppercase tracking-[0.3em] font-medium text-gray-400 group-hover:text-primary transition-colors">Artisan House</h3>
+<p class="text-xs font-light tracking-widest truncate">H Heure Double Tour Watch</p>
+<p class="text-xs font-semibold tracking-widest">$3,150</p>
+</div>
+</div>
+</div>
+<div class="mt-32 flex flex-col items-center gap-8 border-t border-gray-100 dark:border-white/5 pt-16">
+<div class="flex items-center gap-6">
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined scale-90">chevron_left</span>
+</button>
+<div class="flex items-center gap-8">
+<button class="text-[11px] font-bold border-b-2 border-primary pb-1">01</button>
+<button class="text-[11px] font-medium text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">02</button>
+<button class="text-[11px] font-medium text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">03</button>
+<span class="text-[11px] text-gray-300">...</span>
+<button class="text-[11px] font-medium text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">12</button>
+</div>
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined scale-90">chevron_right</span>
+</button>
+</div>
+<p class="text-[9px] font-bold uppercase tracking-[0.4em] text-gray-300">Displaying 6 of 1,248 Masterpieces</p>
+</div>
+</div>
+</div>
+</main>
+<footer class="mt-32 border-t border-gray-100 dark:border-white/5 bg-white dark:bg-background-dark py-24 px-6 md:px-10 lg:px-20">
+<div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
+<div class="space-y-8">
+<div class="flex items-center gap-2">
+<div class="text-primary">
+<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z"></path>
+</svg>
+</div>
+<h2 class="text-xl font-light tracking-[0.2em] uppercase">Luxe</h2>
+</div>
+<p class="text-[11px] text-gray-400 uppercase tracking-widest leading-relaxed max-w-xs">Redefining elegance through a curated lens of global luxury.</p>
+</div>
+<div>
+<h5 class="text-[10px] uppercase tracking-[0.3em] font-bold mb-8">Client Services</h5>
+<ul class="space-y-5">
+<li><a class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-primary transition-colors" href="#">Private Viewing</a></li>
+<li><a class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-primary transition-colors" href="#">Artisan Repairs</a></li>
+<li><a class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-primary transition-colors" href="#">The Atelier</a></li>
+<li><a class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-primary transition-colors" href="#">Global Shipping</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-[10px] uppercase tracking-[0.3em] font-bold mb-8">The House</h5>
+<ul class="space-y-5">
+<li><a class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-primary transition-colors" href="#">Our Heritage</a></li>
+<li><a class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-primary transition-colors" href="#">Sustainability</a></li>
+<li><a class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-primary transition-colors" href="#">Careers</a></li>
+<li><a class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-primary transition-colors" href="#">Press</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-[10px] uppercase tracking-[0.3em] font-bold mb-8">Journal</h5>
+<p class="text-[10px] uppercase tracking-widest text-gray-400 mb-6">Receive curated updates from the world of luxury.</p>
+<div class="flex border-b border-gray-200 dark:border-white/10 pb-2">
+<input class="bg-transparent border-none px-0 py-2 text-[10px] uppercase tracking-widest w-full focus:ring-0" placeholder="EMAIL ADDRESS" type="email"/>
+<button class="text-primary text-[10px] font-bold uppercase tracking-[0.2em] hover:text-gold-dark transition-colors">Subscribe</button>
+</div>
+</div>
+</div>
+<div class="max-w-[1440px] mx-auto mt-24 pt-12 border-t border-gray-100 dark:border-white/5 flex flex-col md:flex-row justify-between gap-8 items-center">
+<p class="text-[9px] uppercase tracking-[0.5em] text-gray-400">© 2024 LUXE HOUSE. ALL RIGHTS RESERVED.</p>
+<div class="flex items-center gap-10">
+<a class="text-[9px] uppercase tracking-[0.3em] text-gray-400 hover:text-primary" href="#">Privacy Policy</a>
+<a class="text-[9px] uppercase tracking-[0.3em] text-gray-400 hover:text-primary" href="#">Terms of Service</a>
+<a class="text-[9px] uppercase tracking-[0.3em] text-gray-400 hover:text-primary" href="#">Accessibility</a>
+</div>
+</div>
+</footer>
+</div>
+
+</body></html>

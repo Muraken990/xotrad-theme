@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World One Trading デザインシステム | Design Specification v1.0</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========================================
+           CSS Variables - Document Design Tokens
+        ======================================== */
+        :root {
+            /* Document UI Colors */
+            --doc-bg: #0a0a0a;
+            --doc-surface: #121214;
+            --doc-card: #18181b;
+            --doc-border: #27272a;
+            --doc-border-light: #3f3f46;
+            --doc-text: #e4e4e7;
+            --doc-text-muted: #a1a1aa;
+            --doc-text-faint: #71717a;
+
+            /* Theme Colors */
+            --gold: #D4AF37;
+            --gold-vibrant: #FFD700;
+            --gold-muted: #C5A028;
+            --gold-dark: #AA8E2F;
+
+            /* Fonts */
+            --font-display: 'Inter', sans-serif;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            /* Spacing */
+            --spacing-1: 4px;
+            --spacing-2: 8px;
+            --spacing-3: 12px;
+            --spacing-4: 16px;
+            --spacing-5: 20px;
+            --spacing-6: 24px;
+            --spacing-8: 32px;
+            --spacing-10: 40px;
+            --spacing-12: 48px;
+
+            /* Border Radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        /* ========================================
+           Base Styles
+        ======================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: var(--font-display);
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--doc-text);
+            background: var(--doc-bg);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--doc-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--gold); }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* ========================================
+           Document Layout
+        ======================================== */
+        .doc-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .doc-sidebar {
+            background: var(--doc-surface);
+            border-right: 1px solid var(--doc-border);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            padding: var(--spacing-6);
+        }
+
+        .doc-sidebar-header {
+            margin-bottom: var(--spacing-6);
+            padding-bottom: var(--spacing-6);
+            border-bottom: 1px solid var(--doc-border);
+        }
+
+        .doc-sidebar-logo {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--doc-text);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .doc-sidebar-logo span {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .doc-sidebar-version {
+            font-size: 10px;
+            color: var(--doc-text-faint);
+            margin-top: var(--spacing-1);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .doc-nav-section {
+            margin-bottom: var(--spacing-5);
+        }
+
+        .doc-nav-title {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--doc-text-faint);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: var(--spacing-2);
+        }
+
+        .doc-nav-list {
+            list-style: none;
+        }
+
+        .doc-nav-list a {
+            display: block;
+            padding: 6px 12px;
+            font-size: 12px;
+            color: var(--doc-text-muted);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            transition: all 150ms ease;
+        }
+
+        .doc-nav-list a:hover {
+            background: rgba(212, 175, 55, 0.05);
+            color: var(--gold);
+        }
+
+        /* Main Content */
+        .doc-main {
+            padding: var(--spacing-12) var(--spacing-10);
+            max-width: 960px;
+        }
+
+        .doc-header {
+            margin-bottom: var(--spacing-12);
+            padding-bottom: var(--spacing-8);
+            border-bottom: 1px solid var(--doc-border);
+        }
+
+        .doc-header h1 {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            font-weight: 300;
+            font-style: italic;
+            color: white;
+            margin-bottom: var(--spacing-2);
+        }
+
+        .doc-header h1 span {
+            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .doc-header p {
+            font-size: 13px;
+            color: var(--doc-text-muted);
+        }
+
+        .doc-meta {
+            display: flex;
+            gap: var(--spacing-6);
+            margin-top: var(--spacing-4);
+            font-size: 11px;
+            color: var(--doc-text-faint);
+        }
+
+        .doc-meta span {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+        }
+
+        /* Sections */
+        .doc-section {
+            background: var(--doc-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-8);
+            margin-bottom: var(--spacing-8);
+            border: 1px solid var(--doc-border);
+        }
+
+        .doc-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: var(--spacing-6);
+            padding-bottom: var(--spacing-4);
+            border-bottom: 1px solid var(--doc-border);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+        }
+
+        .doc-section-title .material-symbols-outlined {
+            color: var(--gold);
+            font-size: 22px;
+        }
+
+        .doc-subsection {
+            margin-bottom: var(--spacing-8);
+        }
+
+        .doc-subsection:last-child {
+            margin-bottom: 0;
+        }
+
+        .doc-subsection-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--doc-text);
+            margin-bottom: var(--spacing-4);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+        }
+
+        .doc-subsection-title::before {
+            content: '';
+            display: inline-block;
+            width: 3px;
+            height: 14px;
+            background: var(--gold);
+            border-radius: 2px;
+        }
+
+        .doc-description {
+            font-size: 12px;
+            color: var(--doc-text-muted);
+            margin-bottom: var(--spacing-4);
+            line-height: 1.8;
+        }
+
+        /* Color Swatches */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: var(--spacing-3);
+        }
+
+        .color-swatch {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--doc-border);
+        }
+
+        .color-swatch-preview {
+            height: 56px;
+        }
+
+        .color-swatch-info {
+            padding: var(--spacing-2) var(--spacing-3);
+            background: var(--doc-card);
+        }
+
+        .color-swatch-name {
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--doc-text);
+        }
+
+        .color-swatch-value {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            color: var(--doc-text-faint);
+        }
+
+        /* Gradient Preview */
+        .gradient-preview {
+            height: 48px;
+            border-radius: var(--radius-md);
+            margin: var(--spacing-3) 0;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: #0d0d0d;
+            border: 1px solid var(--doc-border);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-4) var(--spacing-5);
+            margin: var(--spacing-4) 0;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: #a1a1aa;
+            line-height: 1.8;
+        }
+
+        .code-block .prop { color: #93c5fd; }
+        .code-block .val { color: #fde68a; }
+        .code-block .comment { color: #525252; }
+
+        .code-inline {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        /* Spec Table */
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin: var(--spacing-4) 0;
+        }
+
+        .spec-table th,
+        .spec-table td {
+            padding: var(--spacing-3) var(--spacing-4);
+            text-align: left;
+            border-bottom: 1px solid var(--doc-border);
+        }
+
+        .spec-table th {
+            background: rgba(212, 175, 55, 0.05);
+            font-weight: 600;
+            color: var(--doc-text-muted);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .spec-table td {
+            color: var(--doc-text);
+        }
+
+        .spec-table .property {
+            font-family: var(--font-mono);
+            color: var(--gold);
+            font-size: 11px;
+        }
+
+        .spec-table .value {
+            font-family: var(--font-mono);
+            color: var(--doc-text-muted);
+            font-size: 11px;
+        }
+
+        /* Example Box */
+        .example-box {
+            background: var(--doc-card);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-6);
+            margin: var(--spacing-4) 0;
+            border: 1px solid var(--doc-border);
+        }
+
+        .example-label {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--doc-text-faint);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: var(--spacing-4);
+        }
+
+        /* Dark/Light Mode Preview */
+        .mode-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-4);
+        }
+
+        .mode-preview {
+            border-radius: var(--radius-md);
+            padding: var(--spacing-5);
+            border: 1px solid var(--doc-border);
+        }
+
+        .mode-preview.dark {
+            background: #09090b;
+        }
+
+        .mode-preview.light {
+            background: #fdfdfd;
+            border-color: #e4e4e7;
+        }
+
+        .mode-label {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: var(--spacing-3);
+        }
+
+        .mode-preview.dark .mode-label { color: var(--gold); }
+        .mode-preview.light .mode-label { color: var(--gold-dark); }
+
+        /* Typography Samples */
+        .type-sample {
+            padding: var(--spacing-4) 0;
+            border-bottom: 1px solid var(--doc-border);
+        }
+
+        .type-sample:last-child {
+            border-bottom: none;
+        }
+
+        .type-meta {
+            font-size: 10px;
+            color: var(--doc-text-faint);
+            font-family: var(--font-mono);
+            margin-top: var(--spacing-2);
+        }
+
+        /* Component Preview */
+        .component-preview {
+            border-radius: var(--radius-md);
+            padding: var(--spacing-6);
+            margin: var(--spacing-4) 0;
+            border: 1px solid var(--doc-border);
+            overflow: hidden;
+        }
+
+        .component-preview.dark-bg {
+            background: #09090b;
+        }
+
+        .component-preview.light-bg {
+            background: #fdfdfd;
+        }
+
+        /* Button Samples */
+        .btn-sample {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            font-family: var(--font-display);
+            text-decoration: none;
+            transition: all 300ms ease;
+        }
+
+        /* Flex utilities */
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-3);
+            align-items: center;
+        }
+
+        .flex-col {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-3);
+        }
+
+        /* Spacing visual */
+        .spacing-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-4);
+        }
+
+        .spacing-bar {
+            height: 20px;
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 2px;
+        }
+
+        .spacing-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--doc-text-muted);
+            min-width: 80px;
+        }
+
+        /* Breakpoint Diagram */
+        .breakpoint-bar {
+            display: flex;
+            height: 36px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin: var(--spacing-4) 0;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .breakpoint-bar > div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* Animation Demo */
+        .anim-demo {
+            display: flex;
+            gap: var(--spacing-6);
+            flex-wrap: wrap;
+        }
+
+        .anim-item {
+            text-align: center;
+            font-size: 11px;
+            color: var(--doc-text-muted);
+        }
+
+        .anim-box {
+            width: 80px;
+            height: 80px;
+            background: var(--doc-card);
+            border: 1px solid var(--doc-border);
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--spacing-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 500ms ease;
+            overflow: hidden;
+        }
+
+        .anim-item:hover .anim-scale {
+            transform: scale(1.05);
+        }
+
+        .anim-item:hover .anim-fade {
+            opacity: 0.3;
+        }
+
+        .anim-item:hover .anim-slide {
+            transform: translateY(-8px);
+        }
+
+        /* Icon Grid */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: var(--spacing-3);
+        }
+
+        .icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-4);
+            background: var(--doc-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--doc-border);
+        }
+
+        .icon-item .material-symbols-outlined {
+            font-size: 22px;
+            color: var(--doc-text);
+        }
+
+        .icon-item span:last-child {
+            font-size: 9px;
+            color: var(--doc-text-faint);
+            text-align: center;
+        }
+
+        /* Layout Diagram */
+        .layout-diagram {
+            border: 1px solid var(--doc-border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            font-size: 10px;
+            margin: var(--spacing-4) 0;
+        }
+
+        .layout-header-bar {
+            background: rgba(212, 175, 55, 0.1);
+            padding: var(--spacing-3);
+            text-align: center;
+            color: var(--gold);
+            font-weight: 600;
+            border-bottom: 1px solid var(--doc-border);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .layout-body {
+            display: flex;
+            min-height: 180px;
+        }
+
+        .layout-sidebar-bar {
+            width: 100px;
+            background: rgba(212, 175, 55, 0.05);
+            padding: var(--spacing-3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--doc-text-faint);
+            font-weight: 600;
+            border-right: 1px solid var(--doc-border);
+        }
+
+        .layout-main-bar {
+            flex: 1;
+            background: var(--doc-card);
+            padding: var(--spacing-4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--doc-text-faint);
+        }
+
+        .layout-footer-bar {
+            background: var(--doc-surface);
+            padding: var(--spacing-3);
+            text-align: center;
+            color: var(--doc-text-faint);
+            font-weight: 600;
+            border-top: 1px solid var(--doc-border);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .doc-layout {
+                grid-template-columns: 1fr;
+            }
+            .doc-sidebar {
+                display: none;
+            }
+            .mode-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="doc-sidebar">
+            <div class="doc-sidebar-header">
+                <div class="doc-sidebar-logo">World One <span>Trading</span></div>
+                <div class="doc-sidebar-version">Design System v1.0</div>
+            </div>
+
+            <nav>
+                <div class="doc-nav-section">
+                    <div class="doc-nav-title">Foundation</div>
+                    <ul class="doc-nav-list">
+                        <li><a href="#colors">カラーシステム</a></li>
+                        <li><a href="#typography">タイポグラフィ</a></li>
+                        <li><a href="#spacing">スペーシング</a></li>
+                        <li><a href="#radius">角丸・ボーダー</a></li>
+                    </ul>
+                </div>
+
+                <div class="doc-nav-section">
+                    <div class="doc-nav-title">Layout</div>
+                    <ul class="doc-nav-list">
+                        <li><a href="#grid">グリッド・レイアウト</a></li>
+                        <li><a href="#breakpoints">ブレークポイント</a></li>
+                        <li><a href="#page-structure">ページ構成</a></li>
+                    </ul>
+                </div>
+
+                <div class="doc-nav-section">
+                    <div class="doc-nav-title">Components</div>
+                    <ul class="doc-nav-list">
+                        <li><a href="#header">ヘッダー</a></li>
+                        <li><a href="#hero">ヒーロー</a></li>
+                        <li><a href="#buttons">ボタン</a></li>
+                        <li><a href="#product-card">商品カード</a></li>
+                        <li><a href="#houses">Houses セクション</a></li>
+                        <li><a href="#editorial">Editorial セクション</a></li>
+                        <li><a href="#filters">サイドバーフィルター</a></li>
+                        <li><a href="#pagination">ページネーション</a></li>
+                        <li><a href="#footer">フッター</a></li>
+                    </ul>
+                </div>
+
+                <div class="doc-nav-section">
+                    <div class="doc-nav-title">Interaction</div>
+                    <ul class="doc-nav-list">
+                        <li><a href="#animations">アニメーション</a></li>
+                        <li><a href="#hover">ホバー効果</a></li>
+                        <li><a href="#theme-toggle">テーマ切替</a></li>
+                    </ul>
+                </div>
+
+                <div class="doc-nav-section">
+                    <div class="doc-nav-title">Assets</div>
+                    <ul class="doc-nav-list">
+                        <li><a href="#icons">アイコン</a></li>
+                        <li><a href="#scrollbar">スクロールバー</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="doc-main">
+            <header class="doc-header">
+                <h1>The <span>Design</span> System</h1>
+                <p>World One Trading - ECサイト デザイン仕様書 完全版</p>
+                <div class="doc-meta">
+                    <span><span class="material-symbols-outlined" style="font-size:14px">calendar_today</span> 作成日: 2026年1月23日</span>
+                    <span><span class="material-symbols-outlined" style="font-size:14px">code</span> Version 1.0</span>
+                    <span><span class="material-symbols-outlined" style="font-size:14px">palette</span> Tailwind CSS ベース</span>
+                </div>
+            </header>
+
+            <!-- ==================== COLORS ==================== -->
+            <section class="doc-section" id="colors">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">palette</span> カラーシステム</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">Primary Gold</h3>
+                    <p class="doc-description">ブランドを表現するゴールドカラー。ボタン、アクセント、ホバー時のハイライトに使用。</p>
+                    <div class="color-grid">
+                        <div class="color-swatch">
+                            <div class="color-swatch-preview" style="background: #D4AF37;"></div>
+                            <div class="color-swatch-info">
+                                <div class="color-swatch-name">Primary</div>
+                                <div class="color-swatch-value">#D4AF37</div>
+                            </div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-swatch-preview" style="background: #FFD700;"></div>
+                            <div class="color-swatch-info">
+                                <div class="color-swatch-name">Vibrant</div>
+                                <div class="color-swatch-value">#FFD700</div>
+                            </div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-swatch-preview" style="background: #C5A028;"></div>
+                            <div class="color-swatch-info">
+                                <div class="color-swatch-name">Muted</div>
+                                <div class="color-swatch-value">#C5A028</div>
+                            </div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-swatch-preview" style="background: #AA8E2F;"></div>
+                            <div class="color-swatch-info">
+                                <div class="color-swatch-name">Dark</div>
+                                <div class="color-swatch-value">#AA8E2F</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">Gold Gradient（テキスト用）</h3>
+                    <p class="doc-description">ヒーローやEditorialセクションの見出しに使用するプレミアムなゴールドグラデーション。</p>
+                    <div class="gradient-preview" style="background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C); border-radius: 8px;"></div>
+                    <div class="code-block">
+                        <code>
+<span class="prop">background</span>: <span class="val">linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C)</span>;<br>
+<span class="prop">-webkit-background-clip</span>: <span class="val">text</span>;<br>
+<span class="prop">-webkit-text-fill-color</span>: <span class="val">transparent</span>;
+                        </code>
+                    </div>
+                </div>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">ダークモード</h3>
+                    <p class="doc-description">デフォルトテーマ。深いブラック系を基調とし、ゴールドアクセントで高級感を演出。</p>
+                    <div class="color-grid">
+                        <div class="color-swatch">
+                            <div class="color-swatch-preview" style="background: #09090b;"></div>
+                            <div class="color-swatch-info">
+                                <div class="color-swatch-name">Background</div>
+                                <div class="color-swatch-value">#09090b</div>
+                            </div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-swatch-preview" style="background: #121214;"></div>
+                            <div class="color-swatch-info">
+                                <div class="color-swatch-name">Charcoal</div>
+                                <div class="color-swatch-value">#121214</div>
+                            </div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-swatch-preview" style="background: #18181b;"></div>
+                            <div class="color-swatch-info">
+                                <div class="color-swatch-name">Card</div>
+                                <div class="color-swatch-value">#18181b</div>
+                            </div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-swatch-preview" style="background: #0c0c0e;"></div>
+                            <div class="color-swatch-info">
+                                <div class="color-swatch-name">Surface</div>
+                                <div class="color-swatch-value">#0c0c0e</div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="spec-table" style="margin-top: 16px;">
+                        <tr><th>用途</th><th>Tailwind Class</th><th>説明</th></tr>
+                        <tr><td class="property">テキスト Primary</td><td class="value">zinc-100</td><td>メインテキスト</td></tr>
+                        <tr><td class="property">テキスト Secondary</td><td class="value">zinc-400</td><td>サブテキスト</td></tr>
+                        <tr><td class="property">テキスト Muted</td><td class="value">zinc-500</td><td>補助テキスト</td></tr>
+                        <tr><td class="property">テキスト Faint</td><td class="value">zinc-600</td><td>最小テキスト</td></tr>
+                        <tr><td class="property">ボーダー</td><td class="value">zinc-800/50</td><td>半透明ボーダー</td></tr>
+                    </table>
+                </div>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">ライトモード</h3>
+                    <p class="doc-description">代替テーマ。クリーンなホワイト系で読みやすさを重視。</p>
+                    <div class="color-grid">
+                        <div class="color-swatch">
+                            <div class="color-swatch-preview" style="background: #fdfdfd; border: 1px solid #e4e4e7;"></div>
+                            <div class="color-swatch-info">
+                                <div class="color-swatch-name">Background</div>
+                                <div class="color-swatch-value">#fdfdfd</div>
+                            </div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-swatch-preview" style="background: #ffffff; border: 1px solid #e4e4e7;"></div>
+                            <div class="color-swatch-info">
+                                <div class="color-swatch-name">Card</div>
+                                <div class="color-swatch-value">#ffffff</div>
+                            </div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-swatch-preview" style="background: #f8f6f6; border: 1px solid #e4e4e7;"></div>
+                            <div class="color-swatch-info">
+                                <div class="color-swatch-name">Surface</div>
+                                <div class="color-swatch-value">#f8f6f6</div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="spec-table" style="margin-top: 16px;">
+                        <tr><th>用途</th><th>Tailwind Class</th><th>説明</th></tr>
+                        <tr><td class="property">テキスト Primary</td><td class="value">gray-900</td><td>メインテキスト</td></tr>
+                        <tr><td class="property">テキスト Secondary</td><td class="value">gray-500</td><td>サブテキスト</td></tr>
+                        <tr><td class="property">テキスト Muted</td><td class="value">gray-400</td><td>補助テキスト</td></tr>
+                        <tr><td class="property">ボーダー</td><td class="value">gray-100 / gray-200</td><td>ボーダー</td></tr>
+                    </table>
+                </div>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">Dark / Light 比較</h3>
+                    <div class="mode-grid">
+                        <div class="mode-preview dark">
+                            <div class="mode-label">Dark Mode (Default)</div>
+                            <div style="color: #e4e4e7; font-size: 13px; margin-bottom: 8px;">メインテキスト</div>
+                            <div style="color: #a1a1aa; font-size: 12px; margin-bottom: 8px;">サブテキスト</div>
+                            <div style="color: #D4AF37; font-size: 12px; font-weight: 600;">アクセント Gold</div>
+                            <div style="margin-top: 12px; padding: 8px 16px; background: #D4AF37; color: #000; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; display: inline-block;">Button</div>
+                        </div>
+                        <div class="mode-preview light">
+                            <div class="mode-label" style="color: #AA8E2F;">Light Mode</div>
+                            <div style="color: #18181b; font-size: 13px; margin-bottom: 8px;">メインテキスト</div>
+                            <div style="color: #6b7280; font-size: 12px; margin-bottom: 8px;">サブテキスト</div>
+                            <div style="color: #AA8E2F; font-size: 12px; font-weight: 600;">アクセント Gold</div>
+                            <div style="margin-top: 12px; padding: 8px 16px; background: #D4AF37; color: #000; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; display: inline-block;">Button</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== TYPOGRAPHY ==================== -->
+            <section class="doc-section" id="typography">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">text_fields</span> タイポグラフィ</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">フォントファミリー</h3>
+                    <table class="spec-table">
+                        <tr><th>用途</th><th>フォント</th><th>ウェイト</th><th>適用箇所</th></tr>
+                        <tr>
+                            <td class="property">Display / Body</td>
+                            <td><span style="font-family: Inter;">Inter</span></td>
+                            <td class="value">100 - 900</td>
+                            <td>本文、UI、ナビ、ボタン</td>
+                        </tr>
+                        <tr>
+                            <td class="property">Serif Heading</td>
+                            <td><span style="font-family: 'Cormorant Garamond'; font-style: italic; font-size: 16px;">Cormorant Garamond</span></td>
+                            <td class="value">300 - 700, italic</td>
+                            <td>ヒーロー見出し、セクションタイトル</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">見出しスタイル</h3>
+
+                    <div class="type-sample">
+                        <div style="font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; font-style: italic; color: white; letter-spacing: -0.02em;">The Midnight Collection</div>
+                        <div class="type-meta">Hero H1 — Cormorant Garamond Italic 300 / 6xl-8xl / tracking-tight</div>
+                    </div>
+
+                    <div class="type-sample">
+                        <div style="font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; font-style: italic; color: white; letter-spacing: -0.02em;">Curated Masterpieces</div>
+                        <div class="type-meta">Section H2 — Cormorant Garamond Italic 300 / 5xl / tracking-tight</div>
+                    </div>
+
+                    <div class="type-sample">
+                        <div style="font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: white; letter-spacing: -0.02em;">The Houses</div>
+                        <div class="type-meta">Sub H2 — Cormorant Garamond Light 300 / 3xl / tracking-tight</div>
+                    </div>
+
+                    <div class="type-sample">
+                        <div style="font-family: Inter, sans-serif; font-size: 36px; font-weight: 200; color: white; letter-spacing: -0.02em;">The Collection</div>
+                        <div class="type-meta">Collection Title — Inter Extralight 200 / 6xl / tracking-tight</div>
+                    </div>
+
+                    <div class="type-sample">
+                        <div style="font-family: Inter, sans-serif; font-size: 16px; font-weight: 500; color: white;">Bamboo 1947 Leather Mini Bag</div>
+                        <div class="type-meta">Product Name (HP) — Inter Medium 500 / text-lg</div>
+                    </div>
+
+                    <div class="type-sample">
+                        <div style="font-family: Inter, sans-serif; font-size: 12px; font-weight: 300; color: #a1a1aa; letter-spacing: 0.1em;">Horsebit 1955 Shoulder Bag</div>
+                        <div class="type-meta">Product Name (Collection) — Inter Light 300 / text-xs / tracking-widest</div>
+                    </div>
+                </div>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">UIテキストスタイル</h3>
+                    <table class="spec-table">
+                        <tr><th>要素</th><th>サイズ</th><th>ウェイト</th><th>スタイル</th></tr>
+                        <tr>
+                            <td>ナビリンク</td>
+                            <td class="value">10px</td>
+                            <td class="value">700 (bold)</td>
+                            <td class="value">uppercase, tracking-[0.2em]</td>
+                        </tr>
+                        <tr>
+                            <td>ブランドラベル</td>
+                            <td class="value">10px</td>
+                            <td class="value">700 (bold)</td>
+                            <td class="value">uppercase, tracking-[0.2em]-[0.3em], color: primary</td>
+                        </tr>
+                        <tr>
+                            <td>セクションラベル</td>
+                            <td class="value">10px</td>
+                            <td class="value">700 (bold)</td>
+                            <td class="value">uppercase, tracking-[0.4em]-[0.5em], color: primary</td>
+                        </tr>
+                        <tr>
+                            <td>タグライン</td>
+                            <td class="value">10px</td>
+                            <td class="value">600 (semibold)</td>
+                            <td class="value">uppercase, tracking-[0.25em]</td>
+                        </tr>
+                        <tr>
+                            <td>ボタンテキスト</td>
+                            <td class="value">10px-11px</td>
+                            <td class="value">700 (bold)</td>
+                            <td class="value">uppercase, tracking-[0.2em]-[0.25em]</td>
+                        </tr>
+                        <tr>
+                            <td>価格</td>
+                            <td class="value">text-lg / text-xs</td>
+                            <td class="value">600 (semibold)</td>
+                            <td class="value">tracking-widest (collection)</td>
+                        </tr>
+                        <tr>
+                            <td>著作権表示</td>
+                            <td class="value">9px-10px</td>
+                            <td class="value">700 (bold)</td>
+                            <td class="value">uppercase, tracking-[0.1em]-[0.5em]</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">ラベルプレビュー</h3>
+                    <div class="example-box">
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <div>
+                                <div style="font-size: 10px; font-weight: 700; color: #D4AF37; text-transform: uppercase; letter-spacing: 0.5em;">Autumn / Winter 2024</div>
+                                <div class="type-meta">Season Label — tracking-[0.5em]</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 10px; font-weight: 700; color: #D4AF37; text-transform: uppercase; letter-spacing: 0.4em;">Selected For You</div>
+                                <div class="type-meta">Section Label — tracking-[0.4em]</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 10px; font-weight: 700; color: #D4AF37; text-transform: uppercase; letter-spacing: 0.2em;">The Heritage Line</div>
+                                <div class="type-meta">Brand Label — tracking-[0.2em]</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 10px; font-weight: 600; color: #71717a; text-transform: uppercase; letter-spacing: 0.25em;">Mastery of Leather</div>
+                                <div class="type-meta">Tagline — tracking-[0.25em], zinc-500</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== SPACING ==================== -->
+            <section class="doc-section" id="spacing">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">space_bar</span> スペーシング</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">ページパディング</h3>
+                    <table class="spec-table">
+                        <tr><th>ブレークポイント</th><th>水平パディング</th><th>Tailwind</th></tr>
+                        <tr><td>Mobile (default)</td><td class="value">24px</td><td class="value">px-6</td></tr>
+                        <tr><td>Tablet (md)</td><td class="value">40px / 64px</td><td class="value">px-10 / px-16</td></tr>
+                        <tr><td>Desktop (lg)</td><td class="value">80px / 160px</td><td class="value">px-20 / px-40</td></tr>
+                    </table>
+                </div>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">セクション間隔</h3>
+                    <div class="flex-col" style="gap: 8px;">
+                        <div class="spacing-item">
+                            <div class="spacing-label">py-10 (Hero)</div>
+                            <div class="spacing-bar" style="width: 100px;"></div>
+                            <span style="font-size: 11px; color: var(--doc-text-faint);">40px</span>
+                        </div>
+                        <div class="spacing-item">
+                            <div class="spacing-label">py-24 (Curated)</div>
+                            <div class="spacing-bar" style="width: 200px;"></div>
+                            <span style="font-size: 11px; color: var(--doc-text-faint);">96px</span>
+                        </div>
+                        <div class="spacing-item">
+                            <div class="spacing-label">py-32 (Editorial)</div>
+                            <div class="spacing-bar" style="width: 260px;"></div>
+                            <span style="font-size: 11px; color: var(--doc-text-faint);">128px</span>
+                        </div>
+                        <div class="spacing-item">
+                            <div class="spacing-label">mb-24 (Houses)</div>
+                            <div class="spacing-bar" style="width: 200px;"></div>
+                            <span style="font-size: 11px; color: var(--doc-text-faint);">96px</span>
+                        </div>
+                        <div class="spacing-item">
+                            <div class="spacing-label">py-24 (Footer)</div>
+                            <div class="spacing-bar" style="width: 200px;"></div>
+                            <span style="font-size: 11px; color: var(--doc-text-faint);">96px</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== RADIUS ==================== -->
+            <section class="doc-section" id="radius">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">rounded_corner</span> 角丸・ボーダー</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">Border Radius</h3>
+                    <p class="doc-description">全体的にシャープなデザイン。ほぼ角丸なし。</p>
+                    <table class="spec-table">
+                        <tr><th>トークン</th><th>サイズ</th><th>用途</th></tr>
+                        <tr><td class="property">DEFAULT (rounded-sm)</td><td class="value">0.125rem (2px)</td><td>カード、画像、ボタン全般</td></tr>
+                        <tr><td class="property">lg</td><td class="value">0.25rem (4px)</td><td>-</td></tr>
+                        <tr><td class="property">xl</td><td class="value">0.5rem (8px)</td><td>-</td></tr>
+                        <tr><td class="property">full</td><td class="value">9999px</td><td>検索入力、丸ボタン</td></tr>
+                    </table>
+
+                    <div class="example-box" style="margin-top: 16px;">
+                        <div class="example-label">プレビュー</div>
+                        <div style="display: flex; gap: 24px; align-items: center;">
+                            <div style="text-align: center;">
+                                <div style="width: 60px; height: 60px; background: rgba(212,175,55,0.2); border: 1px solid var(--gold); border-radius: 2px;"></div>
+                                <div style="font-size: 10px; color: var(--doc-text-faint); margin-top: 8px;">2px</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 60px; height: 60px; background: rgba(212,175,55,0.2); border: 1px solid var(--gold); border-radius: 4px;"></div>
+                                <div style="font-size: 10px; color: var(--doc-text-faint); margin-top: 8px;">4px</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 60px; height: 60px; background: rgba(212,175,55,0.2); border: 1px solid var(--gold); border-radius: 8px;"></div>
+                                <div style="font-size: 10px; color: var(--doc-text-faint); margin-top: 8px;">8px</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 60px; height: 60px; background: rgba(212,175,55,0.2); border: 1px solid var(--gold); border-radius: 9999px;"></div>
+                                <div style="font-size: 10px; color: var(--doc-text-faint); margin-top: 8px;">full</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">Gold Border Gradient</h3>
+                    <div class="code-block">
+                        <code>
+<span class="prop">border-image</span>: <span class="val">linear-gradient(to right, #BF953F, #FCF6BA, #AA771C) 1</span>;
+                        </code>
+                    </div>
+                    <div style="height: 2px; background: linear-gradient(to right, #BF953F, #FCF6BA, #AA771C); margin-top: 8px;"></div>
+                </div>
+            </section>
+
+            <!-- ==================== GRID ==================== -->
+            <section class="doc-section" id="grid">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">grid_view</span> グリッド・レイアウト</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">商品グリッド</h3>
+                    <table class="spec-table">
+                        <tr><th>ページ</th><th>カラム</th><th>ギャップ</th><th>ブレークポイント</th></tr>
+                        <tr>
+                            <td>ホームページ</td>
+                            <td class="value">1 → 2 → 3</td>
+                            <td class="value">gap-10 (40px)</td>
+                            <td class="value">md: 2列, lg: 3列</td>
+                        </tr>
+                        <tr>
+                            <td>コレクション</td>
+                            <td class="value">1 → 2 → 3</td>
+                            <td class="value">gap-y-16 gap-x-10</td>
+                            <td class="value">sm: 2列, xl: 3列</td>
+                        </tr>
+                        <tr>
+                            <td>Houses</td>
+                            <td class="value">横スクロール</td>
+                            <td class="value">gap-8 (32px)</td>
+                            <td class="value">min-w-[320px] per card</td>
+                        </tr>
+                        <tr>
+                            <td>フッター</td>
+                            <td class="value">1 → 2 → 4</td>
+                            <td class="value">gap-16 (64px)</td>
+                            <td class="value">md: 2列, lg: 4列</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">最大幅</h3>
+                    <table class="spec-table">
+                        <tr><th>ページ</th><th>max-width</th><th>方式</th></tr>
+                        <tr><td>ホームページ</td><td class="value">なし</td><td class="value">パディングベース (px-40)</td></tr>
+                        <tr><td>コレクション</td><td class="value">1440px</td><td class="value">max-w-[1440px] mx-auto</td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ==================== BREAKPOINTS ==================== -->
+            <section class="doc-section" id="breakpoints">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">devices</span> ブレークポイント</h2>
+
+                <div class="breakpoint-bar">
+                    <div style="flex: 2; background: #71717a;">Mobile</div>
+                    <div style="flex: 1; background: #C5A028;">sm 640</div>
+                    <div style="flex: 1; background: #AA8E2F;">md 768</div>
+                    <div style="flex: 1.5; background: #8B7332;">lg 1024</div>
+                    <div style="flex: 1.5; background: #D4AF37;">xl 1280</div>
+                </div>
+
+                <table class="spec-table">
+                    <tr><th>BP</th><th>Tailwind</th><th>主な変化</th></tr>
+                    <tr><td class="property">Mobile</td><td class="value">default</td><td>1列グリッド, ナビ非表示, 検索非表示</td></tr>
+                    <tr><td class="property">sm</td><td class="value">640px</td><td>商品2列 (コレクション)</td></tr>
+                    <tr><td class="property">md</td><td class="value">768px</td><td>検索表示, フッター2列, ヒーロー8xl</td></tr>
+                    <tr><td class="property">lg</td><td class="value">1024px</td><td>サイドバー表示, フッター4列, 商品3列(HP)</td></tr>
+                    <tr><td class="property">xl</td><td class="value">1280px</td><td>ナビ表示(HP), 商品3列(コレクション)</td></tr>
+                </table>
+            </section>
+
+            <!-- ==================== PAGE STRUCTURE ==================== -->
+            <section class="doc-section" id="page-structure">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">web</span> ページ構成</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">ホームページ構成</h3>
+                    <div class="layout-diagram">
+                        <div class="layout-header-bar">Header (sticky, backdrop-blur)</div>
+                        <div style="background: rgba(212,175,55,0.08); padding: 24px; text-align: center; color: var(--gold); border-bottom: 1px solid var(--doc-border);">
+                            <div style="font-size: 11px; font-weight: 600;">HERO — min-h-[700px]</div>
+                            <div style="font-size: 9px; color: var(--doc-text-faint); margin-top: 4px;">bg-image + gradient overlay</div>
+                        </div>
+                        <div style="padding: 16px; text-align: center; color: var(--doc-text-faint); font-size: 10px; border-bottom: 1px solid var(--doc-border);">
+                            <strong>The Houses</strong> — 横スクロール cards (aspect-[4/5])
+                        </div>
+                        <div style="padding: 16px; text-align: center; color: var(--doc-text-faint); font-size: 10px; background: rgba(12,12,14,0.5); border-bottom: 1px solid var(--doc-border);">
+                            <strong>Curated Masterpieces</strong> — 3列グリッド (aspect-[3/4])
+                        </div>
+                        <div style="padding: 16px; text-align: center; color: var(--doc-text-faint); font-size: 10px; border-bottom: 1px solid var(--doc-border);">
+                            <strong>Editorial (Atelier Journal)</strong> — 2列 image + text
+                        </div>
+                        <div class="layout-footer-bar">Footer (4列グリッド)</div>
+                    </div>
+                </div>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">コレクションページ構成</h3>
+                    <div class="layout-diagram">
+                        <div class="layout-header-bar">Header (sticky, backdrop-blur)</div>
+                        <div style="padding: 8px 16px; text-align: left; color: var(--doc-text-faint); font-size: 9px; border-bottom: 1px solid var(--doc-border);">
+                            Home / Collections / All Pieces
+                        </div>
+                        <div style="padding: 16px; border-bottom: 1px solid var(--doc-border);">
+                            <div style="font-size: 10px; color: var(--doc-text-faint); text-align: center;"><strong>Title + Sort</strong></div>
+                        </div>
+                        <div class="layout-body">
+                            <div class="layout-sidebar-bar">Filters<br>(w-64)</div>
+                            <div class="layout-main-bar">Product Grid (3列, aspect-[4/5])</div>
+                        </div>
+                        <div style="padding: 12px; text-align: center; color: var(--doc-text-faint); font-size: 10px; border-top: 1px solid var(--doc-border);">
+                            Pagination
+                        </div>
+                        <div class="layout-footer-bar">Footer</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== HEADER ==================== -->
+            <section class="doc-section" id="header">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">web_asset</span> ヘッダー</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">仕様</h3>
+                    <table class="spec-table">
+                        <tr><th>プロパティ</th><th>値</th></tr>
+                        <tr><td class="property">位置</td><td class="value">sticky top-0 z-50</td></tr>
+                        <tr><td class="property">背景 (dark)</td><td class="value">bg-charcoal/90 backdrop-blur-xl</td></tr>
+                        <tr><td class="property">背景 (light)</td><td class="value">bg-white/80 backdrop-blur-md</td></tr>
+                        <tr><td class="property">ボーダー</td><td class="value">border-b border-zinc-800/50 (dark) / border-gray-100 (light)</td></tr>
+                        <tr><td class="property">パディング</td><td class="value">py-4〜5, px-6/md:px-10〜16/lg:px-20〜40</td></tr>
+                    </table>
+                </div>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">ヘッダープレビュー (Dark)</h3>
+                    <div class="component-preview dark-bg">
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 0;">
+                            <div style="display: flex; align-items: center; gap: 40px;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="color: #D4AF37; width: 24px; height: 24px;">
+                                        <svg fill="currentColor" viewBox="0 0 48 48"><path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z"/></svg>
+                                    </div>
+                                    <span style="font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 900; color: #D4AF37; letter-spacing: 0.25em; text-transform: uppercase;">WOT</span>
+                                </div>
+                                <div style="display: flex; gap: 32px;">
+                                    <span style="font-size: 10px; font-weight: 700; color: #a1a1aa; text-transform: uppercase; letter-spacing: 0.2em;">Shop</span>
+                                    <span style="font-size: 10px; font-weight: 700; color: #a1a1aa; text-transform: uppercase; letter-spacing: 0.2em;">Brands</span>
+                                    <span style="font-size: 10px; font-weight: 700; color: #a1a1aa; text-transform: uppercase; letter-spacing: 0.2em;">About</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 16px;">
+                                <span class="material-symbols-outlined" style="color: #a1a1aa; font-size: 20px;">search</span>
+                                <span class="material-symbols-outlined" style="color: #a1a1aa; font-size: 20px;">favorite</span>
+                                <div style="position: relative; display: inline-flex;">
+                                    <span class="material-symbols-outlined" style="color: #a1a1aa; font-size: 20px;">shopping_bag</span>
+                                    <span style="position: absolute; top: -4px; right: -4px; width: 14px; height: 14px; background: #D4AF37; border-radius: 50%; font-size: 8px; font-weight: 700; color: black; display: flex; align-items: center; justify-content: center;">2</span>
+                                </div>
+                                <span class="material-symbols-outlined" style="color: #D4AF37; font-size: 20px;">dark_mode</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== HERO ==================== -->
+            <section class="doc-section" id="hero">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">panorama</span> ヒーローセクション</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">仕様</h3>
+                    <table class="spec-table">
+                        <tr><th>プロパティ</th><th>値</th></tr>
+                        <tr><td class="property">最小高さ</td><td class="value">min-h-[700px]</td></tr>
+                        <tr><td class="property">オーバーレイ</td><td class="value">linear-gradient(rgba(0,0,0,0.4) 0%, rgba(9,9,11,0.9) 100%)</td></tr>
+                        <tr><td class="property">角丸</td><td class="value">rounded-sm (2px)</td></tr>
+                        <tr><td class="property">配置</td><td class="value">flex items-center justify-center text-center</td></tr>
+                        <tr><td class="property">テキスト最大幅</td><td class="value">max-w-4xl</td></tr>
+                    </table>
+                </div>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">構成要素</h3>
+                    <div class="component-preview dark-bg" style="text-align: center; padding: 48px 24px;">
+                        <div style="font-size: 10px; font-weight: 600; color: #D4AF37; letter-spacing: 0.5em; text-transform: uppercase; margin-bottom: 20px;">Curated Luxury from Japan</div>
+                        <div style="font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 300; font-style: italic; color: white; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 16px;">
+                            The <span style="background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 500;">Midnight</span><br>Collection
+                        </div>
+                        <div style="font-size: 13px; color: #d4d4d8; font-weight: 300; opacity: 0.8; max-width: 400px; margin: 0 auto 24px;">
+                            Discover a realm where shadow meets substance. An exclusive selection elevated by artisanal gold detailing.
+                        </div>
+                        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                            <div style="padding: 14px 32px; background: #D4AF37; color: black; font-size: 10px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase;">Shop Now</div>
+                            <div style="padding: 14px 32px; border: 1px solid rgba(212,175,55,0.5); color: white; font-size: 10px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase;">Browse Brands</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== BUTTONS ==================== -->
+            <section class="doc-section" id="buttons">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">smart_button</span> ボタン</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">ボタンスタイル一覧</h3>
+                    <div class="example-box">
+                        <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
+                            <div style="padding: 14px 40px; background: #D4AF37; color: black; font-size: 11px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; cursor: pointer;">Primary CTA</div>
+                            <div style="padding: 14px 40px; border: 1px solid rgba(212,175,55,0.5); color: white; font-size: 11px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; cursor: pointer;">Secondary</div>
+                            <div style="padding: 12px 24px; background: #D4AF37; color: black; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; width: 200px; text-align: center; cursor: pointer;">Add to Bag</div>
+                        </div>
+                    </div>
+
+                    <table class="spec-table" style="margin-top: 16px;">
+                        <tr><th>タイプ</th><th>高さ</th><th>背景</th><th>ホバー</th><th>テキスト</th></tr>
+                        <tr>
+                            <td class="property">Primary CTA</td>
+                            <td class="value">h-14 (56px)</td>
+                            <td class="value">bg-primary (#D4AF37)</td>
+                            <td class="value">bg-gold-vibrant (#FFD700)</td>
+                            <td class="value">text-black 11px bold tracking-[0.25em]</td>
+                        </tr>
+                        <tr>
+                            <td class="property">Secondary</td>
+                            <td class="value">h-14 (56px)</td>
+                            <td class="value">transparent</td>
+                            <td class="value">bg-white/5, border-primary</td>
+                            <td class="value">text-white 11px bold tracking-[0.25em]</td>
+                        </tr>
+                        <tr>
+                            <td class="property">Add to Bag</td>
+                            <td class="value">py-4 (16px)</td>
+                            <td class="value">bg-primary</td>
+                            <td class="value">bg-gold-vibrant</td>
+                            <td class="value">text-black 10px bold tracking-[0.2em]</td>
+                        </tr>
+                        <tr>
+                            <td class="property">Nav Arrow</td>
+                            <td class="value">h-14 w-14</td>
+                            <td class="value">transparent, border</td>
+                            <td class="value">bg-primary/10</td>
+                            <td class="value">Material icon</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">テキストリンク</h3>
+                    <div class="example-box">
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="font-size: 10px; font-weight: 700; color: #D4AF37; text-transform: uppercase; letter-spacing: 0.2em; display: flex; align-items: center; gap: 8px;">
+                                Directory <span class="material-symbols-outlined" style="font-size: 14px;">arrow_forward</span>
+                            </div>
+                            <div style="font-size: 11px; font-weight: 700; color: #D4AF37; text-transform: uppercase; letter-spacing: 0.3em; display: flex; align-items: center; gap: 8px;">
+                                Read the Full Feature <span class="material-symbols-outlined" style="font-size: 16px;">arrow_right_alt</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== PRODUCT CARD ==================== -->
+            <section class="doc-section" id="product-card">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">shopping_bag</span> 商品カード</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">ホームページ版 (Dark)</h3>
+                    <table class="spec-table">
+                        <tr><th>プロパティ</th><th>値</th></tr>
+                        <tr><td class="property">画像比率</td><td class="value">aspect-[3/4]</td></tr>
+                        <tr><td class="property">角丸</td><td class="value">rounded-sm (2px)</td></tr>
+                        <tr><td class="property">背景</td><td class="value">bg-charcoal (#121214)</td></tr>
+                        <tr><td class="property">ホバー</td><td class="value">scale-105, duration-1000</td></tr>
+                        <tr><td class="property">Favorite btn</td><td class="value">absolute top-6 right-6, bg-black/40 backdrop-blur-md, opacity-0→1</td></tr>
+                        <tr><td class="property">Add to Bag</td><td class="value">translate-y-full→0, bg-gradient from-black/90, duration-500</td></tr>
+                    </table>
+                    <div class="component-preview dark-bg" style="max-width: 280px;">
+                        <div style="position: relative; aspect-ratio: 3/4; background: #121214; border-radius: 2px; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                            <span style="color: var(--doc-text-faint); font-size: 11px;">Product Image</span>
+                            <div style="position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; background: rgba(0,0,0,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <span class="material-symbols-outlined" style="color: white; font-size: 16px;">favorite</span>
+                            </div>
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 24px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);">
+                                <div style="padding: 12px; background: #D4AF37; color: black; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; text-align: center;">Add to Bag</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <div style="font-size: 10px; font-weight: 700; color: #D4AF37; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 4px;">The Heritage Line</div>
+                                <div style="font-size: 14px; font-weight: 500; color: white;">Bamboo 1947 Leather Mini Bag</div>
+                            </div>
+                            <div style="font-size: 14px; font-weight: 600; color: #D4AF37;">$3,200</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">コレクション版 (Light)</h3>
+                    <table class="spec-table">
+                        <tr><th>プロパティ</th><th>値</th></tr>
+                        <tr><td class="property">画像比率</td><td class="value">aspect-[4/5]</td></tr>
+                        <tr><td class="property">背景</td><td class="value">bg-gray-50 (light) / bg-white/5 (dark)</td></tr>
+                        <tr><td class="property">Quick Add</td><td class="value">bottom-0, bg-white/95 backdrop-blur-sm, border-t-2 border-primary</td></tr>
+                        <tr><td class="property">バッジ</td><td class="value">absolute top-4 left-4, bg-primary text-white</td></tr>
+                        <tr><td class="property">テキスト配置</td><td class="value">text-center</td></tr>
+                    </table>
+                    <div class="component-preview light-bg" style="max-width: 240px;">
+                        <div style="position: relative; aspect-ratio: 4/5; background: #f4f4f5; border-radius: 2px; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                            <span style="color: #a1a1aa; font-size: 11px;">Product Image</span>
+                            <div style="position: absolute; top: 12px; left: 12px; padding: 4px 10px; background: #D4AF37; color: white; font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;">Premium</div>
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 12px; background: rgba(255,255,255,0.95); border-top: 2px solid #D4AF37; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                <span class="material-symbols-outlined" style="font-size: 14px; color: #D4AF37;">shopping_cart</span>
+                                <span style="font-size: 10px; font-weight: 700; color: #18181b; letter-spacing: 0.2em; text-transform: uppercase;">Quick Add</span>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 10px; font-weight: 500; color: #a1a1aa; text-transform: uppercase; letter-spacing: 0.3em; margin-bottom: 4px;">Signature Label</div>
+                            <div style="font-size: 12px; font-weight: 300; color: #18181b; letter-spacing: 0.1em; margin-bottom: 4px;">Horsebit 1955 Shoulder Bag</div>
+                            <div style="font-size: 12px; font-weight: 600; color: #18181b; letter-spacing: 0.1em;">$2,980</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== HOUSES ==================== -->
+            <section class="doc-section" id="houses">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">domain</span> Houses セクション</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">仕様</h3>
+                    <table class="spec-table">
+                        <tr><th>プロパティ</th><th>値</th></tr>
+                        <tr><td class="property">レイアウト</td><td class="value">flex overflow-x-auto gap-8, scrollbar: hidden</td></tr>
+                        <tr><td class="property">カード幅</td><td class="value">min-w-[320px]</td></tr>
+                        <tr><td class="property">画像比率</td><td class="value">aspect-[4/5]</td></tr>
+                        <tr><td class="property">オーバーレイ通常</td><td class="value">bg-black/30</td></tr>
+                        <tr><td class="property">オーバーレイホバー</td><td class="value">bg-black/10, duration-500</td></tr>
+                        <tr><td class="property">画像ホバー</td><td class="value">scale-105, duration-1000</td></tr>
+                        <tr><td class="property">ブランド名</td><td class="value">text-2xl font-light font-serif italic, absolute bottom-8 left-8</td></tr>
+                        <tr><td class="property">ホバーアイコン</td><td class="value">north_east, text-primary, opacity-0→1</td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ==================== EDITORIAL ==================== -->
+            <section class="doc-section" id="editorial">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">article</span> Editorial セクション</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">レイアウト仕様</h3>
+                    <table class="spec-table">
+                        <tr><th>プロパティ</th><th>値</th></tr>
+                        <tr><td class="property">グリッド</td><td class="value">grid-cols-1 lg:grid-cols-2 gap-24 items-center</td></tr>
+                        <tr><td class="property">パディング</td><td class="value">py-32</td></tr>
+                        <tr><td class="property">メイン画像</td><td class="value">aspect-[4/5], shadow-[0_0_50px_rgba(212,175,55,0.1)]</td></tr>
+                        <tr><td class="property">サブ画像</td><td class="value">absolute -bottom-10 -right-10, w-1/2, shadow-2xl</td></tr>
+                        <tr><td class="property">特徴アイコン</td><td class="value">h-12 w-12, border border-primary/20, hover: bg-primary/5</td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ==================== FILTERS ==================== -->
+            <section class="doc-section" id="filters">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">filter_list</span> サイドバーフィルター</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">フィルター構成</h3>
+                    <table class="spec-table">
+                        <tr><th>プロパティ</th><th>値</th></tr>
+                        <tr><td class="property">幅</td><td class="value">w-64 (256px) on lg+</td></tr>
+                        <tr><td class="property">タイトル</td><td class="value">text-[11px] uppercase tracking-[0.3em] font-bold</td></tr>
+                        <tr><td class="property">グループラベル</td><td class="value">text-[10px] font-bold uppercase tracking-[0.2em]</td></tr>
+                        <tr><td class="property">開閉アイコン</td><td class="value">remove (開) / add (閉)</td></tr>
+                        <tr><td class="property">チェックボックス</td><td class="value">w-4 h-4, rounded-none, text-primary</td></tr>
+                        <tr><td class="property">ラベル</td><td class="value">text-[11px] uppercase tracking-widest text-gray-500</td></tr>
+                        <tr><td class="property">アクティブタグ</td><td class="value">border border-primary, text-primary, bg-white/5</td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ==================== PAGINATION ==================== -->
+            <section class="doc-section" id="pagination">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">more_horiz</span> ページネーション</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">プレビュー</h3>
+                    <div class="component-preview dark-bg" style="text-align: center;">
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 24px;">
+                            <span class="material-symbols-outlined" style="color: #a1a1aa; font-size: 18px;">chevron_left</span>
+                            <div style="display: flex; gap: 24px;">
+                                <span style="font-size: 11px; font-weight: 700; color: white; border-bottom: 2px solid #D4AF37; padding-bottom: 4px;">01</span>
+                                <span style="font-size: 11px; font-weight: 500; color: #a1a1aa;">02</span>
+                                <span style="font-size: 11px; font-weight: 500; color: #a1a1aa;">03</span>
+                                <span style="font-size: 11px; color: #71717a;">...</span>
+                                <span style="font-size: 11px; font-weight: 500; color: #a1a1aa;">12</span>
+                            </div>
+                            <span class="material-symbols-outlined" style="color: #a1a1aa; font-size: 18px;">chevron_right</span>
+                        </div>
+                        <div style="font-size: 9px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.4em; margin-top: 20px;">Displaying 6 of 1,248 Masterpieces</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== FOOTER ==================== -->
+            <section class="doc-section" id="footer">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">dock_to_bottom</span> フッター</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">仕様</h3>
+                    <table class="spec-table">
+                        <tr><th>プロパティ</th><th>値 (Dark)</th><th>値 (Light)</th></tr>
+                        <tr><td class="property">背景</td><td class="value">bg-charcoal (#121214)</td><td class="value">bg-white</td></tr>
+                        <tr><td class="property">パディング</td><td class="value" colspan="2">py-24, px-6/md:px-10〜16/lg:px-20〜40</td></tr>
+                        <tr><td class="property">グリッド</td><td class="value" colspan="2">1→2(md)→4(lg)列, gap-16</td></tr>
+                        <tr><td class="property">見出し</td><td class="value" colspan="2">text-[11px] font-bold uppercase tracking-[0.2em]</td></tr>
+                        <tr><td class="property">リンク</td><td class="value" colspan="2">text-xs text-zinc-500, hover: text-primary</td></tr>
+                        <tr><td class="property">著作権</td><td class="value" colspan="2">mt-24 pt-10, border-t, text-[9px]-[10px] uppercase</td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ==================== ANIMATIONS ==================== -->
+            <section class="doc-section" id="animations">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">animation</span> アニメーション</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">トランジション一覧</h3>
+                    <table class="spec-table">
+                        <tr><th>要素</th><th>効果</th><th>Duration</th><th>Timing</th></tr>
+                        <tr><td>画像ホバー</td><td class="value">scale(1.05)</td><td class="value">1000ms</td><td class="value">ease</td></tr>
+                        <tr><td>オーバーレイ変化</td><td class="value">bg-black/30 → /10</td><td class="value">500ms</td><td class="value">ease</td></tr>
+                        <tr><td>Add to Bag</td><td class="value">translateY(100%) → 0</td><td class="value">500ms</td><td class="value">ease</td></tr>
+                        <tr><td>Quick Add</td><td class="value">opacity + translateY(4px→0)</td><td class="value">300ms</td><td class="value">ease</td></tr>
+                        <tr><td>Favorite btn</td><td class="value">opacity 0 → 1</td><td class="value">default</td><td class="value">ease</td></tr>
+                        <tr><td>テーマ切替</td><td class="value">color transition</td><td class="value">500ms</td><td class="value">ease</td></tr>
+                        <tr><td>リンク矢印</td><td class="value">translateX(0→12px)</td><td class="value">default</td><td class="value">ease</td></tr>
+                    </table>
+                </div>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">ホバーデモ</h3>
+                    <div class="anim-demo">
+                        <div class="anim-item">
+                            <div class="anim-box anim-scale">
+                                <span class="material-symbols-outlined" style="color: var(--gold);">zoom_in</span>
+                            </div>
+                            scale-105
+                        </div>
+                        <div class="anim-item">
+                            <div class="anim-box anim-fade" style="background: rgba(212,175,55,0.2);">
+                                <span style="color: var(--gold); font-size: 10px;">overlay</span>
+                            </div>
+                            opacity change
+                        </div>
+                        <div class="anim-item">
+                            <div class="anim-box anim-slide">
+                                <span class="material-symbols-outlined" style="color: var(--gold);">arrow_upward</span>
+                            </div>
+                            translateY
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== HOVER ==================== -->
+            <section class="doc-section" id="hover">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">touch_app</span> ホバー効果</h2>
+                <div class="doc-description">全てのインタラクティブ要素にホバーフィードバックを適用。主にゴールドへの色変化。</div>
+                <table class="spec-table">
+                    <tr><th>要素</th><th>通常</th><th>ホバー</th></tr>
+                    <tr><td>ナビリンク</td><td class="value">text-zinc-400</td><td class="value">text-primary (#D4AF37)</td></tr>
+                    <tr><td>Primary ボタン</td><td class="value">bg-primary</td><td class="value">bg-gold-vibrant (#FFD700)</td></tr>
+                    <tr><td>フッターリンク</td><td class="value">text-zinc-500</td><td class="value">text-primary</td></tr>
+                    <tr><td>商品カード画像</td><td class="value">scale(1)</td><td class="value">scale(1.05)</td></tr>
+                    <tr><td>Houses overlay</td><td class="value">bg-black/30</td><td class="value">bg-black/10</td></tr>
+                    <tr><td>Arrow links</td><td class="value">gap-2</td><td class="value">gap-4 / translateX(12px)</td></tr>
+                </table>
+            </section>
+
+            <!-- ==================== THEME TOGGLE ==================== -->
+            <section class="doc-section" id="theme-toggle">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">contrast</span> テーマ切替</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">実装方式</h3>
+                    <table class="spec-table">
+                        <tr><th>項目</th><th>値</th></tr>
+                        <tr><td class="property">方式</td><td class="value">class ベース（&lt;html class="dark"&gt;）</td></tr>
+                        <tr><td class="property">Tailwind設定</td><td class="value">darkMode: "class"</td></tr>
+                        <tr><td class="property">トグル</td><td class="value">document.documentElement.classList.toggle('dark')</td></tr>
+                        <tr><td class="property">永続化</td><td class="value">localStorage</td></tr>
+                        <tr><td class="property">デフォルト</td><td class="value">Dark Mode</td></tr>
+                        <tr><td class="property">トランジション</td><td class="value">transition-colors duration-500 (body)</td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ==================== ICONS ==================== -->
+            <section class="doc-section" id="icons">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">emoji_symbols</span> アイコン</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">Google Material Symbols Outlined</h3>
+                    <div class="code-block">
+                        <code>
+<span class="prop">font-variation-settings</span>: <span class="val">'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24</span>;
+                        </code>
+                    </div>
+
+                    <div class="icon-grid" style="margin-top: 16px;">
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">search</span>
+                            <span>search</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">favorite</span>
+                            <span>favorite</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">shopping_bag</span>
+                            <span>shopping_bag</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">shopping_cart</span>
+                            <span>shopping_cart</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">dark_mode</span>
+                            <span>dark_mode</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">contrast</span>
+                            <span>contrast</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">chevron_left</span>
+                            <span>chevron_left</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">chevron_right</span>
+                            <span>chevron_right</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                            <span>arrow_forward</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">arrow_right_alt</span>
+                            <span>arrow_right_alt</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">north_east</span>
+                            <span>north_east</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">verified</span>
+                            <span>verified</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">workspace_premium</span>
+                            <span>workspace_premium</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">person</span>
+                            <span>person</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">expand_more</span>
+                            <span>expand_more</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">close</span>
+                            <span>close</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">remove</span>
+                            <span>remove</span>
+                        </div>
+                        <div class="icon-item">
+                            <span class="material-symbols-outlined">add</span>
+                            <span>add</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== SCROLLBAR ==================== -->
+            <section class="doc-section" id="scrollbar">
+                <h2 class="doc-section-title"><span class="material-symbols-outlined">swap_vert</span> スクロールバー</h2>
+
+                <div class="doc-subsection">
+                    <h3 class="doc-subsection-title">カスタムスクロールバー</h3>
+                    <div class="code-block">
+                        <code>
+<span class="comment">/* Custom Scrollbar */</span><br>
+<span class="prop">::-webkit-scrollbar</span> { <span class="prop">width</span>: <span class="val">4px</span>; }<br>
+<span class="prop">::-webkit-scrollbar-track</span> { <span class="prop">background</span>: <span class="val">#09090b</span>; }<br>
+<span class="prop">::-webkit-scrollbar-thumb</span> { <span class="prop">background</span>: <span class="val">#D4AF37</span>; }
+                        </code>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 16px; margin-top: 16px;">
+                        <div style="width: 4px; height: 80px; background: #09090b; border-radius: 2px; position: relative;">
+                            <div style="width: 4px; height: 30px; background: #D4AF37; border-radius: 2px; position: absolute; top: 10px;"></div>
+                        </div>
+                        <div style="font-size: 11px; color: var(--doc-text-muted);">4px幅 / ゴールド thumb / ダーク track</div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+</body>
+
+</html>

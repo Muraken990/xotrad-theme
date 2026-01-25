@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WORLD ONE TRADING | Collection</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: {
+                "primary": "#D4AF37",
+                "gold-vibrant": "#FFD700",
+                "gold-muted": "#C5A028",
+                "gold-dark": "#AA8E2F",
+                "background-light": "#fdfdfd",
+                "background-dark": "#09090b",
+                "charcoal": "#121214",
+                "card-dark": "#18181b",
+                "accent-silver": "#d4d4d8",
+            },
+            fontFamily: {
+                "display": ["Inter", "sans-serif"],
+                "serif": ["Cormorant Garamond", "serif"]
+            },
+            borderRadius: {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "9999px"
+            },
+        },
+    },
+}
+</script>
+<style type="text/tailwindcss">
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    }
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+    .product-card:hover .quick-add {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .custom-checkbox:checked + span {
+        color: #D4AF37;
+        font-weight: 600;
+    }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white transition-colors duration-300">
+<div class="layout-container flex h-full grow flex-col">
+
+<!-- Header (Light mode) -->
+<header class="sticky top-0 z-50 w-full border-b border-gray-100 dark:border-zinc-800/50 bg-white/90 dark:bg-charcoal/90 backdrop-blur-xl px-6 md:px-16 lg:px-40 py-4">
+    <div class="flex items-center justify-between whitespace-nowrap">
+        <div class="flex items-center gap-16">
+            <div class="flex items-center gap-3">
+                <div class="size-7 text-primary">
+                    <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h2 class="text-gray-900 dark:text-primary text-lg font-black tracking-[0.15em] uppercase font-serif">World One Trading</h2>
+            </div>
+            <nav class="hidden xl:flex items-center gap-10">
+                <a class="text-gray-500 dark:text-zinc-400 hover:text-primary dark:hover:text-primary text-[10px] font-bold uppercase tracking-[0.2em] transition-colors" href="#">Shop</a>
+                <a class="text-gray-500 dark:text-zinc-400 hover:text-primary dark:hover:text-primary text-[10px] font-bold uppercase tracking-[0.2em] transition-colors" href="#">Brands</a>
+                <a class="text-gray-500 dark:text-zinc-400 hover:text-primary dark:hover:text-primary text-[10px] font-bold uppercase tracking-[0.2em] transition-colors" href="#">About</a>
+            </nav>
+        </div>
+        <div class="flex items-center gap-8">
+            <label class="hidden md:flex flex-col min-w-48 !h-9 max-w-64">
+                <div class="flex w-full flex-1 items-stretch rounded-full h-full bg-gray-100 dark:bg-zinc-900 border border-transparent focus-within:border-primary/50 transition-all">
+                    <div class="text-gray-400 dark:text-zinc-600 flex items-center justify-center pl-4">
+                        <span class="material-symbols-outlined text-[18px]">search</span>
+                    </div>
+                    <input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-gray-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-transparent h-full placeholder:text-gray-400 dark:placeholder:text-zinc-600 px-3 text-xs font-normal" placeholder="Search the collection..." value=""/>
+                </div>
+            </label>
+            <div class="flex gap-4">
+                <button class="flex items-center justify-center rounded-full h-10 w-10 text-gray-700 dark:text-zinc-400 hover:text-primary transition-all">
+                    <span class="material-symbols-outlined text-[22px]">favorite</span>
+                </button>
+                <button class="flex items-center justify-center rounded-full h-10 w-10 text-gray-700 dark:text-zinc-400 hover:text-primary transition-all relative">
+                    <span class="material-symbols-outlined text-[22px]">shopping_bag</span>
+                    <span class="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[9px] font-bold text-black">2</span>
+                </button>
+                <button id="theme-toggle" class="flex items-center justify-center rounded-full h-10 w-10 bg-primary/10 text-primary border border-primary/20">
+                    <span class="material-symbols-outlined text-[22px]">light_mode</span>
+                </button>
+            </div>
+            <button id="mobile-menu-btn" class="xl:hidden flex items-center justify-center rounded-full h-10 w-10 text-gray-700 dark:text-zinc-400 hover:text-primary transition-all">
+                <span class="material-symbols-outlined text-[22px]">menu</span>
+            </button>
+        </div>
+    </div>
+    <nav id="mobile-menu" class="hidden xl:hidden flex-col gap-4 pt-6 pb-2">
+        <a class="text-gray-500 dark:text-zinc-400 hover:text-primary text-[11px] font-bold uppercase tracking-[0.2em] transition-colors py-2" href="#">Shop</a>
+        <a class="text-gray-500 dark:text-zinc-400 hover:text-primary text-[11px] font-bold uppercase tracking-[0.2em] transition-colors py-2" href="#">Brands</a>
+        <a class="text-gray-500 dark:text-zinc-400 hover:text-primary text-[11px] font-bold uppercase tracking-[0.2em] transition-colors py-2" href="#">About</a>
+    </nav>
+</header>
+
+<main class="max-w-[1440px] mx-auto w-full px-6 md:px-10 lg:px-20 py-12">
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-3 mb-12">
+        <a class="text-[10px] uppercase tracking-widest text-gray-400 hover:text-primary" href="#">Home</a>
+        <span class="text-[10px] text-gray-300 dark:text-zinc-600">/</span>
+        <a class="text-[10px] uppercase tracking-widest text-gray-400 hover:text-primary" href="#">Collections</a>
+        <span class="text-[10px] text-gray-300 dark:text-zinc-600">/</span>
+        <span class="text-[10px] uppercase tracking-widest font-semibold">All Pieces</span>
+    </div>
+
+    <!-- Title + Sort -->
+    <div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 border-b border-gray-100 dark:border-zinc-800/50 pb-12">
+        <div>
+            <h2 class="text-6xl font-extralight tracking-tight mb-4 font-serif">The Collection</h2>
+            <p class="text-gray-400 font-light tracking-wide italic">Authenticated luxury pieces from Japan's finest collections.</p>
+        </div>
+        <div class="flex items-center gap-6">
+            <span class="text-[10px] uppercase tracking-[0.3em] text-gray-400">Sort by</span>
+            <button class="flex items-center gap-8 border-b border-gray-200 dark:border-zinc-700 pb-1 text-xs uppercase tracking-widest font-medium hover:border-primary transition-colors">
+                Newest First
+                <span class="material-symbols-outlined scale-75">expand_more</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-16">
+        <!-- Sidebar Filters -->
+        <aside class="w-full lg:w-64 flex-shrink-0 space-y-10">
+            <div>
+                <h4 class="text-[11px] uppercase tracking-[0.3em] font-bold text-gray-900 dark:text-white mb-10">Refine Selection</h4>
+                <div class="space-y-10">
+                    <!-- Brand Filter -->
+                    <div class="pb-6">
+                        <button class="flex items-center justify-between w-full mb-6 group">
+                            <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Brand</span>
+                            <span class="material-symbols-outlined scale-75">remove</span>
+                        </button>
+                        <div class="space-y-4">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input checked class="custom-checkbox w-4 h-4 rounded-none border-gray-300 dark:border-zinc-700 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+                                <span class="text-[11px] uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Hermès (48)</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input class="custom-checkbox w-4 h-4 rounded-none border-gray-300 dark:border-zinc-700 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+                                <span class="text-[11px] uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Chanel (65)</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input class="custom-checkbox w-4 h-4 rounded-none border-gray-300 dark:border-zinc-700 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+                                <span class="text-[11px] uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Louis Vuitton (92)</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input class="custom-checkbox w-4 h-4 rounded-none border-gray-300 dark:border-zinc-700 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+                                <span class="text-[11px] uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Gucci (73)</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input class="custom-checkbox w-4 h-4 rounded-none border-gray-300 dark:border-zinc-700 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+                                <span class="text-[11px] uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Dior (41)</span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Condition Filter -->
+                    <div class="border-t border-gray-100 dark:border-zinc-800 pt-8 pb-6">
+                        <button class="flex items-center justify-between w-full mb-6 group">
+                            <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Condition</span>
+                            <span class="material-symbols-outlined scale-75">remove</span>
+                        </button>
+                        <div class="space-y-4">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input class="custom-checkbox w-4 h-4 rounded-none border-gray-300 dark:border-zinc-700 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+                                <span class="text-[11px] uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">S - New/Unused (12)</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input class="custom-checkbox w-4 h-4 rounded-none border-gray-300 dark:border-zinc-700 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+                                <span class="text-[11px] uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">A - Excellent (89)</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input class="custom-checkbox w-4 h-4 rounded-none border-gray-300 dark:border-zinc-700 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+                                <span class="text-[11px] uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">B - Good (156)</span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Price Filter -->
+                    <div class="border-t border-gray-100 dark:border-zinc-800 pt-8">
+                        <button class="flex items-center justify-between w-full mb-4 group">
+                            <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Price</span>
+                            <span class="material-symbols-outlined scale-75">add</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Product Grid -->
+        <div class="flex-1">
+            <!-- Active Filters -->
+            <div class="flex flex-wrap gap-3 mb-12">
+                <div class="flex items-center gap-3 bg-white dark:bg-zinc-900 text-primary border border-primary px-4 py-2 text-[10px] font-bold uppercase tracking-widest">
+                    Brand: Hermès
+                    <button class="hover:text-gold-dark transition-colors">
+                        <span class="material-symbols-outlined !text-[12px]">close</span>
+                    </button>
+                </div>
+                <div class="flex items-center gap-2 text-gray-400 px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer">
+                    Clear Filters
+                </div>
+            </div>
+
+            <!-- Products -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-y-16 gap-x-10">
+                <!-- Product 1 -->
+                <div class="product-card group cursor-pointer">
+                    <div class="relative aspect-[4/5] mb-6 bg-gray-50 dark:bg-zinc-900 overflow-hidden">
+                        <div class="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-1000" style='background-image: url("https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&q=80");'></div>
+                        <div class="quick-add absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-black/95 backdrop-blur-sm py-4 border-t-2 border-primary flex items-center justify-center gap-3 opacity-0 translate-y-4 transition-all duration-300">
+                            <span class="material-symbols-outlined !text-sm text-primary">shopping_cart</span>
+                            <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Quick Add</span>
+                        </div>
+                        <div class="absolute top-4 left-4 bg-primary text-black text-[9px] font-bold uppercase px-3 py-1.5 tracking-[0.2em]">Condition S</div>
+                    </div>
+                    <div class="space-y-2 text-center">
+                        <h3 class="text-[10px] uppercase tracking-[0.3em] font-medium text-gray-400 group-hover:text-primary transition-colors">Hermès</h3>
+                        <p class="text-xs font-light tracking-widest truncate">Birkin 25 Togo Gold Hardware</p>
+                        <p class="text-xs font-semibold tracking-widest">¥1,980,000</p>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card group cursor-pointer">
+                    <div class="relative aspect-[4/5] mb-6 bg-gray-50 dark:bg-zinc-900 overflow-hidden">
+                        <div class="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-1000" style='background-image: url("https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=600&q=80");'></div>
+                        <div class="quick-add absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-black/95 backdrop-blur-sm py-4 border-t-2 border-primary flex items-center justify-center gap-3 opacity-0 translate-y-4 transition-all duration-300">
+                            <span class="material-symbols-outlined !text-sm text-primary">shopping_cart</span>
+                            <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Quick Add</span>
+                        </div>
+                        <div class="absolute top-4 left-4 bg-primary text-black text-[9px] font-bold uppercase px-3 py-1.5 tracking-[0.2em]">Condition A</div>
+                    </div>
+                    <div class="space-y-2 text-center">
+                        <h3 class="text-[10px] uppercase tracking-[0.3em] font-medium text-gray-400 group-hover:text-primary transition-colors">Chanel</h3>
+                        <p class="text-xs font-light tracking-widest truncate">Classic Flap Medium Lambskin</p>
+                        <p class="text-xs font-semibold tracking-widest">¥1,280,000</p>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card group cursor-pointer">
+                    <div class="relative aspect-[4/5] mb-6 bg-gray-50 dark:bg-zinc-900 overflow-hidden">
+                        <div class="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-1000" style='background-image: url("https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=600&q=80");'></div>
+                        <div class="quick-add absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-black/95 backdrop-blur-sm py-4 border-t-2 border-primary flex items-center justify-center gap-3 opacity-0 translate-y-4 transition-all duration-300">
+                            <span class="material-symbols-outlined !text-sm text-primary">shopping_cart</span>
+                            <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Quick Add</span>
+                        </div>
+                        <div class="absolute top-4 left-4 bg-primary text-black text-[9px] font-bold uppercase px-3 py-1.5 tracking-[0.2em]">Condition A</div>
+                    </div>
+                    <div class="space-y-2 text-center">
+                        <h3 class="text-[10px] uppercase tracking-[0.3em] font-medium text-gray-400 group-hover:text-primary transition-colors">Louis Vuitton</h3>
+                        <p class="text-xs font-light tracking-widest truncate">Capucines MM Taurillon Leather</p>
+                        <p class="text-xs font-semibold tracking-widest">¥680,000</p>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card group cursor-pointer">
+                    <div class="relative aspect-[4/5] mb-6 bg-gray-50 dark:bg-zinc-900 overflow-hidden">
+                        <div class="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-1000" style='background-image: url("https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80");'></div>
+                        <div class="quick-add absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-black/95 backdrop-blur-sm py-4 border-t-2 border-primary flex items-center justify-center gap-3 opacity-0 translate-y-4 transition-all duration-300">
+                            <span class="material-symbols-outlined !text-sm text-primary">shopping_cart</span>
+                            <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Quick Add</span>
+                        </div>
+                        <div class="absolute top-4 left-4 bg-primary text-black text-[9px] font-bold uppercase px-3 py-1.5 tracking-[0.2em]">Condition B</div>
+                    </div>
+                    <div class="space-y-2 text-center">
+                        <h3 class="text-[10px] uppercase tracking-[0.3em] font-medium text-gray-400 group-hover:text-primary transition-colors">Gucci</h3>
+                        <p class="text-xs font-light tracking-widest truncate">GG Marmont Small Matelassé</p>
+                        <p class="text-xs font-semibold tracking-widest">¥248,000</p>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card group cursor-pointer">
+                    <div class="relative aspect-[4/5] mb-6 bg-gray-50 dark:bg-zinc-900 overflow-hidden">
+                        <div class="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-1000" style='background-image: url("https://images.unsplash.com/photo-1600857062241-98e5dba7f214?w=600&q=80");'></div>
+                        <div class="quick-add absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-black/95 backdrop-blur-sm py-4 border-t-2 border-primary flex items-center justify-center gap-3 opacity-0 translate-y-4 transition-all duration-300">
+                            <span class="material-symbols-outlined !text-sm text-primary">shopping_cart</span>
+                            <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Quick Add</span>
+                        </div>
+                        <div class="absolute top-4 left-4 bg-primary text-black text-[9px] font-bold uppercase px-3 py-1.5 tracking-[0.2em]">Condition S</div>
+                    </div>
+                    <div class="space-y-2 text-center">
+                        <h3 class="text-[10px] uppercase tracking-[0.3em] font-medium text-gray-400 group-hover:text-primary transition-colors">Dior</h3>
+                        <p class="text-xs font-light tracking-widest truncate">Lady Dior Medium Cannage</p>
+                        <p class="text-xs font-semibold tracking-widest">¥580,000</p>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card group cursor-pointer">
+                    <div class="relative aspect-[4/5] mb-6 bg-gray-50 dark:bg-zinc-900 overflow-hidden">
+                        <div class="w-full h-full bg-center bg-no-repeat bg-cover transform group-hover:scale-105 transition-transform duration-1000" style='background-image: url("https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80");'></div>
+                        <div class="quick-add absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-black/95 backdrop-blur-sm py-4 border-t-2 border-primary flex items-center justify-center gap-3 opacity-0 translate-y-4 transition-all duration-300">
+                            <span class="material-symbols-outlined !text-sm text-primary">shopping_cart</span>
+                            <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Quick Add</span>
+                        </div>
+                        <div class="absolute top-4 left-4 bg-primary text-black text-[9px] font-bold uppercase px-3 py-1.5 tracking-[0.2em]">Condition A</div>
+                    </div>
+                    <div class="space-y-2 text-center">
+                        <h3 class="text-[10px] uppercase tracking-[0.3em] font-medium text-gray-400 group-hover:text-primary transition-colors">Hermès</h3>
+                        <p class="text-xs font-light tracking-widest truncate">Kelly 28 Epsom Palladium</p>
+                        <p class="text-xs font-semibold tracking-widest">¥2,480,000</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-32 flex flex-col items-center gap-8 border-t border-gray-100 dark:border-zinc-800 pt-16">
+                <div class="flex items-center gap-6">
+                    <button class="text-gray-400 hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined scale-90">chevron_left</span>
+                    </button>
+                    <div class="flex items-center gap-8">
+                        <button class="text-[11px] font-bold border-b-2 border-primary pb-1">01</button>
+                        <button class="text-[11px] font-medium text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">02</button>
+                        <button class="text-[11px] font-medium text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">03</button>
+                        <span class="text-[11px] text-gray-300">...</span>
+                        <button class="text-[11px] font-medium text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">12</button>
+                    </div>
+                    <button class="text-gray-400 hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined scale-90">chevron_right</span>
+                    </button>
+                </div>
+                <p class="text-[9px] font-bold uppercase tracking-[0.4em] text-gray-300">Displaying 6 of 319 Pieces</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer (Light mode) -->
+<footer class="mt-32 border-t border-gray-100 dark:border-zinc-800/50 bg-white dark:bg-charcoal py-24 px-6 md:px-16 lg:px-40">
+    <div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
+        <div class="flex flex-col gap-8">
+            <div class="flex items-center gap-3">
+                <div class="size-6 text-primary">
+                    <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h2 class="text-gray-900 dark:text-primary text-base font-black tracking-[0.15em] uppercase font-serif">World One Trading</h2>
+            </div>
+            <p class="text-gray-500 dark:text-zinc-500 text-sm leading-relaxed font-light">
+                Authenticated luxury from Japan. Curated pre-owned pieces from the world's most prestigious maisons.
+            </p>
+            <div class="flex gap-6">
+                <a class="text-gray-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-xl">public</span></a>
+                <a class="text-gray-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-xl">share_reviews</span></a>
+                <a class="text-gray-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-xl">chat_bubble</span></a>
+            </div>
+        </div>
+        <div>
+            <h4 class="text-gray-900 dark:text-white font-bold uppercase tracking-[0.2em] text-[11px] mb-8">Shop</h4>
+            <ul class="flex flex-col gap-4 text-xs text-gray-500 dark:text-zinc-500 font-medium">
+                <li><a class="hover:text-primary transition-colors" href="#">New Arrivals</a></li>
+                <li><a class="hover:text-primary transition-colors" href="#">Handbags</a></li>
+                <li><a class="hover:text-primary transition-colors" href="#">Watches</a></li>
+                <li><a class="hover:text-primary transition-colors" href="#">Accessories</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="text-gray-900 dark:text-white font-bold uppercase tracking-[0.2em] text-[11px] mb-8">About</h4>
+            <ul class="flex flex-col gap-4 text-xs text-gray-500 dark:text-zinc-500 font-medium">
+                <li><a class="hover:text-primary transition-colors" href="#">Our Story</a></li>
+                <li><a class="hover:text-primary transition-colors" href="#">Authentication</a></li>
+                <li><a class="hover:text-primary transition-colors" href="#">Shipping</a></li>
+                <li><a class="hover:text-primary transition-colors" href="#">Returns</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="text-gray-900 dark:text-white font-bold uppercase tracking-[0.2em] text-[11px] mb-8">Newsletter</h4>
+            <p class="text-xs text-gray-500 dark:text-zinc-500 mb-6 font-light">Join our inner circle for exclusive access to new arrivals.</p>
+            <div class="flex flex-col gap-3">
+                <input class="bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-sm px-4 py-3 text-xs focus:ring-1 focus:ring-primary focus:border-primary placeholder:text-gray-400" placeholder="Email address" type="email"/>
+                <button class="w-full bg-primary text-black text-[10px] font-bold uppercase tracking-[0.2em] py-4 rounded-sm hover:bg-gold-vibrant transition-colors">Subscribe</button>
+            </div>
+        </div>
+    </div>
+    <div class="max-w-[1440px] mx-auto mt-24 pt-10 border-t border-gray-100 dark:border-zinc-800/50 flex flex-col md:flex-row items-center justify-between gap-8">
+        <p class="text-[10px] text-gray-400 dark:text-zinc-600 font-bold tracking-[0.1em]">&copy; 2024 WORLD ONE TRADING. ALL RIGHTS RESERVED.</p>
+        <div class="flex gap-10 text-[9px] text-gray-400 dark:text-zinc-600 font-bold uppercase tracking-[0.25em]">
+            <a class="hover:text-primary" href="#">Privacy</a>
+            <a class="hover:text-primary" href="#">Legal</a>
+            <a class="hover:text-primary" href="#">Accessibility</a>
+        </div>
+    </div>
+</footer>
+</div>
+
+<script>
+// Theme toggle
+const themeToggle = document.getElementById('theme-toggle');
+const html = document.documentElement;
+
+themeToggle.addEventListener('click', () => {
+    html.classList.toggle('dark');
+    html.classList.toggle('light');
+    const icon = themeToggle.querySelector('.material-symbols-outlined');
+    icon.textContent = html.classList.contains('dark') ? 'dark_mode' : 'light_mode';
+    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+});
+
+// Load saved theme
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+    html.classList.add('dark');
+    html.classList.remove('light');
+    themeToggle.querySelector('.material-symbols-outlined').textContent = 'dark_mode';
+}
+
+// Mobile menu toggle
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+mobileMenuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+    mobileMenu.classList.toggle('flex');
+});
+</script>
+</body>
+</html>
