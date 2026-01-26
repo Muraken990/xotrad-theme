@@ -1743,6 +1743,54 @@ button {
   background: var(--accent-hover);
 }
 
+/* Hide Downloads tab */
+.woocommerce-account .woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--downloads {
+  display: none;
+}
+
+/* WooCommerce Notice/Message Box */
+.woocommerce-account .woocommerce-message,
+.woocommerce-account .woocommerce-info {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.woocommerce-account .woocommerce-message::before,
+.woocommerce-account .woocommerce-info::before {
+  display: none;
+}
+
+.woocommerce-account .woocommerce-message a.button,
+.woocommerce-account .woocommerce-info a.button,
+.woocommerce-account .woocommerce a.button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: var(--accent);
+  color: #000;
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: none;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: background var(--transition-fast);
+}
+
+.woocommerce-account .woocommerce-message a.button:hover,
+.woocommerce-account .woocommerce-info a.button:hover,
+.woocommerce-account .woocommerce a.button:hover {
+  background: var(--accent-hover);
+}
+
 /* Order Tables */
 .woocommerce-account .woocommerce-orders-table {
   width: 100%;
