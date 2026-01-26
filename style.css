@@ -1954,16 +1954,13 @@ button {
   font-size: 2rem;
   font-weight: 400;
   font-style: italic;
+  padding-bottom: 1.5rem !important;
   display: block;
 }
 
-/* Space between h3 and first form field */
-.woocommerce-account .woocommerce-address-fields > h3 + .woocommerce-address-fields__field-wrapper,
-.woocommerce-account h3 + .woocommerce-address-fields__field-wrapper,
-.woocommerce-account h3 + div,
-.woocommerce-account h3 + p,
-.woocommerce-account h3 + .form-row {
-  margin-top: 2.5rem !important;
+/* Add spacing to form wrapper after h3 */
+.woocommerce-account .woocommerce-address-fields__field-wrapper {
+  padding-top: 1rem;
 }
 
 /* Password change fieldset */
