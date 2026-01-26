@@ -194,10 +194,7 @@ while (have_posts()) : the_post();
                             Add to Bag
                         </button>
                     <?php endif; ?>
-                    <button class="btn-add-to-wishlist" data-product-id="<?php echo esc_attr($product_id); ?>">
-                        <span class="material-symbols-outlined">favorite</span>
-                        Add to Wishlist
-                    </button>
+                    <?php echo do_shortcode('[yith_wcwl_add_to_wishlist]'); ?>
                 </div>
 
                 <!-- Shipping Info -->
