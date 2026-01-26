@@ -1945,25 +1945,22 @@ button {
   border-color: var(--accent);
 }
 
-/* Address form header spacing */
-.woocommerce-account h3,
-.woocommerce-account .woocommerce-address-fields h3,
-.woocommerce-account .woocommerce-EditAccountForm h3,
-.woocommerce-account .edit-account h3,
-.my-account-page h3 {
+/* Address form header spacing - h2 for billing/shipping address */
+.woocommerce-MyAccount-content h2 {
   font-family: var(--font-heading);
   font-size: 2rem;
   font-weight: 400;
   font-style: italic;
-  margin-bottom: 2.5rem !important;
-  padding-bottom: 0 !important;
-  display: block;
+  margin-bottom: 2.5rem;
 }
 
-/* Add spacing to form wrapper after h3 */
-.woocommerce-account .woocommerce-address-fields__field-wrapper,
-.my-account-page .woocommerce-address-fields__field-wrapper {
-  margin-top: 0;
+/* Also style h3 for other sections */
+.woocommerce-account h3 {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 400;
+  font-style: italic;
+  margin-bottom: 1.5rem;
 }
 
 /* Password change fieldset */
