@@ -34,9 +34,9 @@
                 </div>
             </div>
             <div class="header-icons">
-                <button class="icon-btn" aria-label="Wishlist">
+                <a href="<?php echo esc_url(home_url('/wishlist/')); ?>" class="icon-btn" aria-label="Wishlist">
                     <span class="material-symbols-outlined">favorite</span>
-                </button>
+                </a>
                 <a href="<?php echo esc_url(wc_get_cart_url()); ?>" class="icon-btn cart-btn" aria-label="Cart">
                     <span class="material-symbols-outlined">shopping_bag</span>
                     <?php if (WC()->cart && WC()->cart->get_cart_contents_count() > 0) : ?>
