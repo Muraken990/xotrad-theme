@@ -1490,39 +1490,20 @@ button {
    YITH Wishlist Page Styling
    ============================ */
 
-/* Wishlist page wrapper - minimum height */
-.woocommerce-wishlist .site-main,
-.woocommerce-wishlist .entry-content,
-.woocommerce-wishlist .woocommerce {
-  min-height: 60vh;
+/* Wishlist content wrapper */
+.wishlist-content {
+  min-height: 50vh;
+  padding-bottom: var(--space-3xl);
 }
 
-.woocommerce-wishlist .woocommerce {
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: 0 var(--space-lg);
-}
-
-/* Wishlist page title styling */
-.woocommerce-wishlist .woocommerce h2,
-.woocommerce-wishlist .wishlist-title {
-  font-family: var(--font-heading);
-  font-size: 3rem;
-  font-weight: 400;
-  font-style: italic;
-  color: var(--text-primary);
-  margin-bottom: var(--space-sm);
-}
-
-.woocommerce-wishlist .wishlist-title-container .wishlist-title {
-  font-family: var(--font-heading);
-  font-size: 3rem;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.woocommerce-wishlist .hidden-title-form {
+/* Hide default YITH titles when using custom template */
+.wishlist-content .wishlist-title-container,
+.wishlist-content > .wishlist-title {
   display: none;
+}
+
+.wishlist-content .woocommerce {
+  width: 100%;
 }
 
 /* Wishlist table */
