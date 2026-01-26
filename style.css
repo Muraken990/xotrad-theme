@@ -1949,18 +1949,21 @@ button {
 .woocommerce-account h3,
 .woocommerce-account .woocommerce-address-fields h3,
 .woocommerce-account .woocommerce-EditAccountForm h3,
-.woocommerce-account .edit-account h3 {
+.woocommerce-account .edit-account h3,
+.my-account-page h3 {
   font-family: var(--font-heading);
   font-size: 2rem;
   font-weight: 400;
   font-style: italic;
-  padding-bottom: 1.5rem !important;
+  margin-bottom: 2.5rem !important;
+  padding-bottom: 0 !important;
   display: block;
 }
 
 /* Add spacing to form wrapper after h3 */
-.woocommerce-account .woocommerce-address-fields__field-wrapper {
-  padding-top: 1rem;
+.woocommerce-account .woocommerce-address-fields__field-wrapper,
+.my-account-page .woocommerce-address-fields__field-wrapper {
+  margin-top: 0;
 }
 
 /* Password change fieldset */
