@@ -1945,6 +1945,34 @@ button {
   border-color: var(--accent);
 }
 
+/* Address form header spacing */
+.woocommerce-account .woocommerce-address-fields h3,
+.woocommerce-account .woocommerce-EditAccountForm h3,
+.woocommerce-account .edit-account h3 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 400;
+  font-style: italic;
+  margin-bottom: var(--space-xl);
+}
+
+/* Password change fieldset */
+.woocommerce-account fieldset {
+  border: none;
+  padding: 0;
+  margin: var(--space-xl) 0;
+}
+
+.woocommerce-account fieldset legend {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text-primary);
+  margin-bottom: var(--space-lg);
+  padding: 0;
+}
+
 /* Shipping Info */
 .shipping-info {
   display: flex;
