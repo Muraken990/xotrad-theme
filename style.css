@@ -1486,6 +1486,296 @@ button {
   display: none;
 }
 
+/* ============================
+   YITH Wishlist Page Styling
+   ============================ */
+.woocommerce-wishlist .wishlist_table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-xl) 0;
+}
+
+.woocommerce-wishlist .wishlist_table thead {
+  border-bottom: 1px solid var(--border);
+}
+
+.woocommerce-wishlist .wishlist_table th {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-secondary);
+  padding: var(--space-md) var(--space-sm);
+  text-align: left;
+  background: transparent;
+}
+
+.woocommerce-wishlist .wishlist_table td {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  padding: var(--space-lg) var(--space-sm);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.woocommerce-wishlist .wishlist_table .product-thumbnail img {
+  width: 80px;
+  height: auto;
+  object-fit: cover;
+}
+
+.woocommerce-wishlist .wishlist_table .product-name a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.woocommerce-wishlist .wishlist_table .product-name a:hover {
+  color: var(--accent);
+}
+
+.woocommerce-wishlist .wishlist_table .product-price {
+  font-weight: 600;
+}
+
+.woocommerce-wishlist .wishlist_table .product-stock-status span {
+  font-size: 0.8rem;
+}
+
+.woocommerce-wishlist .wishlist_table .product-stock-status .in-stock {
+  color: var(--accent);
+}
+
+.woocommerce-wishlist .wishlist_table .product-stock-status .out-of-stock {
+  color: var(--text-muted);
+}
+
+.woocommerce-wishlist .wishlist_table .product-add-to-cart a {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.woocommerce-wishlist .wishlist_table .product-add-to-cart a:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+}
+
+.woocommerce-wishlist .wishlist_table .product-remove a {
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+.woocommerce-wishlist .wishlist_table .product-remove a:hover {
+  color: var(--text-primary);
+}
+
+/* Empty wishlist message */
+.woocommerce-wishlist .wishlist-empty {
+  text-align: center;
+  padding: var(--space-3xl) 0;
+  color: var(--text-secondary);
+}
+
+/* ============================
+   WooCommerce My Account Page
+   ============================ */
+.woocommerce-account .woocommerce-MyAccount-navigation {
+  width: 100%;
+  margin-bottom: var(--space-xl);
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--space-md);
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation ul li a {
+  display: block;
+  padding: 0.6rem 1rem;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation ul li a:hover {
+  color: var(--text-primary);
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation ul li.is-active a {
+  color: var(--accent);
+}
+
+.woocommerce-account .woocommerce-MyAccount-content {
+  width: 100%;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content p {
+  margin-bottom: var(--space-md);
+  color: var(--text-secondary);
+}
+
+.woocommerce-account .woocommerce-MyAccount-content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content a:hover {
+  text-decoration: underline;
+}
+
+/* Forms in My Account */
+.woocommerce-account .woocommerce-form,
+.woocommerce-account .woocommerce-EditAccountForm {
+  max-width: 500px;
+}
+
+.woocommerce-account .woocommerce-form-row,
+.woocommerce-account .form-row {
+  margin-bottom: var(--space-lg);
+}
+
+.woocommerce-account .woocommerce-form-row label,
+.woocommerce-account .form-row label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+.woocommerce-account .woocommerce-form-row input[type="text"],
+.woocommerce-account .woocommerce-form-row input[type="email"],
+.woocommerce-account .woocommerce-form-row input[type="password"],
+.woocommerce-account .form-row input[type="text"],
+.woocommerce-account .form-row input[type="email"],
+.woocommerce-account .form-row input[type="password"] {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  transition: border-color var(--transition-fast);
+}
+
+.woocommerce-account .woocommerce-form-row input:focus,
+.woocommerce-account .form-row input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.woocommerce-account .woocommerce-Button,
+.woocommerce-account button[type="submit"] {
+  display: inline-block;
+  padding: 0.875rem 2rem;
+  background: var(--accent);
+  color: #000;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.woocommerce-account .woocommerce-Button:hover,
+.woocommerce-account button[type="submit"]:hover {
+  background: var(--accent-hover);
+}
+
+/* Order Tables */
+.woocommerce-account .woocommerce-orders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.woocommerce-account .woocommerce-orders-table th {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-secondary);
+  padding: var(--space-md) var(--space-sm);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.woocommerce-account .woocommerce-orders-table td {
+  padding: var(--space-lg) var(--space-sm);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.woocommerce-account .woocommerce-orders-table .woocommerce-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.65rem;
+}
+
+/* Address section */
+.woocommerce-account .woocommerce-Addresses {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-xl);
+}
+
+.woocommerce-account .woocommerce-Address {
+  padding: var(--space-lg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.woocommerce-account .woocommerce-Address-title h3 {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-md);
+}
+
+.woocommerce-account .woocommerce-Address-title a {
+  font-size: 0.7rem;
+}
+
+.woocommerce-account address {
+  font-style: normal;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
 /* Shipping Info */
 .shipping-info {
   display: flex;
