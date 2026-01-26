@@ -1612,17 +1612,14 @@ button {
    WooCommerce My Account Page
    ============================ */
 
-/* My Account page wrapper - minimum height */
-.woocommerce-account .site-main,
-.woocommerce-account .entry-content,
-.woocommerce-account .woocommerce {
-  min-height: 60vh;
+/* My Account content wrapper */
+.my-account-content {
+  min-height: 50vh;
+  padding-bottom: var(--space-3xl);
 }
 
-.woocommerce-account .woocommerce {
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: var(--space-xl) var(--space-lg);
+.my-account-content .woocommerce {
+  width: 100%;
 }
 
 .woocommerce-account .woocommerce-MyAccount-navigation {
