@@ -1946,6 +1946,7 @@ button {
 }
 
 /* Address form header spacing */
+.woocommerce-account h3,
 .woocommerce-account .woocommerce-address-fields h3,
 .woocommerce-account .woocommerce-EditAccountForm h3,
 .woocommerce-account .edit-account h3 {
@@ -1953,7 +1954,8 @@ button {
   font-size: 2rem;
   font-weight: 400;
   font-style: italic;
-  margin-bottom: var(--space-3xl);
+  margin-bottom: var(--space-3xl) !important;
+  display: block;
 }
 
 /* Password change fieldset */
