@@ -8,19 +8,15 @@
 get_header();
 ?>
 
-<main class="site-main">
-    <div class="container">
+<main class="page-wrapper wishlist-page">
+    <div class="page-inner">
         <!-- Breadcrumb -->
-        <nav class="page-breadcrumb">
-            <a href="<?php echo esc_url(home_url('/')); ?>">HOME</a>
-            <span class="breadcrumb-sep">/</span>
-            <span>WISHLIST</span>
-        </nav>
+        <?php woocommerce_breadcrumb(); ?>
 
         <!-- Page Header -->
-        <header class="page-header">
+        <div class="page-header">
             <h1 class="page-title"><?php the_title(); ?></h1>
-        </header>
+        </div>
 
         <!-- Wishlist Content -->
         <div class="wishlist-content">
