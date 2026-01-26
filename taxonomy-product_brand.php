@@ -12,13 +12,13 @@ $brand = get_queried_object();
 $brand_name = $brand ? $brand->name : 'Brand';
 ?>
 
-<main class="site-main shop-page" style="margin-top: var(--header-height);">
+<main class="site-main shop-page page-with-header-offset">
     <div class="container">
 
-        <div class="section" style="padding-bottom: var(--space-lg);">
+        <div class="section section-header-only">
             <h1 class="section-title"><?php echo esc_html($brand_name); ?></h1>
             <?php if ($brand && $brand->description) : ?>
-                <p style="text-align: center; color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+                <p class="section-description">
                     <?php echo esc_html($brand->description); ?>
                 </p>
             <?php endif; ?>

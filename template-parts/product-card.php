@@ -20,10 +20,14 @@ $condition = $condition_terms ? $condition_terms[0]->name : '';
 <div class="product-card">
     <a href="<?php echo esc_url(get_permalink($product_id)); ?>">
         <div class="product-card-image">
+            <?php if (!$product->is_in_stock()) : ?>
+                <div class="sold-ribbon"></div>
+            <?php endif; ?>
+
             <?php if (has_post_thumbnail()) : ?>
                 <?php echo get_the_post_thumbnail($product_id, 'product-card', array('class' => 'primary-image')); ?>
             <?php else : ?>
-                <div class="skeleton primary-image" style="width:100%;height:100%;"></div>
+                <div class="skeleton primary-image"></div>
             <?php endif; ?>
 
             <?php if (!empty($images)) : ?>

@@ -28,7 +28,7 @@ get_header();
         <h2>How to Return</h2>
         <p>To initiate a return:</p>
         <ul>
-            <li>Contact us at returns@worldonetrading.com with your order number</li>
+            <li>Contact us at returns@xotrad.com with your order number</li>
             <li>We will provide you with return shipping instructions</li>
             <li>Ship the item back to us using the provided instructions</li>
             <li>Once we receive and inspect the item, your refund will be processed</li>

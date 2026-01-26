@@ -9,11 +9,11 @@
 get_header();
 ?>
 
-<main class="site-main">
-    <div class="container" style="margin-top: calc(var(--header-height) + var(--space-2xl)); padding-bottom: var(--space-2xl);">
+<main class="site-main brands-page">
+    <div class="container page-container">
         <h1 class="section-title">Our Brands</h1>
 
-        <div class="brands-grid" style="max-width: 900px; margin: 0 auto;">
+        <div class="brands-grid brands-grid-centered">
             <?php
             $brands = get_terms(array(
                 'taxonomy'   => 'product_brand',

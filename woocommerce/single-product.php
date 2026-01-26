@@ -16,8 +16,56 @@ while (have_posts()) : the_post();
     $brand_terms = get_the_terms($product_id, 'product_brand');
     $brand_name = $brand_terms ? $brand_terms[0]->name : '';
     $brand_slug = $brand_terms ? $brand_terms[0]->slug : '';
+    // Get condition from taxonomy or product attribute
+    $condition = '';
     $condition_terms = get_the_terms($product_id, 'product_condition');
-    $condition = $condition_terms ? $condition_terms[0]->name : '';
+    if ($condition_terms && !is_wp_error($condition_terms)) {
+        $condition = $condition_terms[0]->name;
+    }
+    // Fallback: check product attributes
+    if (empty($condition)) {
+        $condition = $product->get_attribute('condition');
+    }
+    if (empty($condition)) {
+        $condition = $product->get_attribute('pa_condition');
+    }
+
+    // Map condition to code for badge (supports partial matching)
+    $condition_code = 'B'; // default
+    $condition_lower = strtolower($condition);
+    if (strpos($condition_lower, 'new') !== false && strpos($condition_lower, 'like') === false) {
+        $condition_code = 'S';
+    } elseif (strpos($condition_lower, 'like new') !== false) {
+        $condition_code = 'S';
+    } elseif (strpos($condition_lower, 'excellent') !== false) {
+        $condition_code = 'A';
+    } elseif (strpos($condition_lower, 'very good') !== false) {
+        $condition_code = 'A';
+    } elseif (strpos($condition_lower, 'good') !== false) {
+        $condition_code = 'B';
+    } elseif (strpos($condition_lower, 'fair') !== false) {
+        $condition_code = 'C';
+    }
+
+    // Get color from product attributes
+    $color = '';
+    $attributes = $product->get_attributes();
+    foreach ($attributes as $attribute) {
+        if (is_object($attribute) && method_exists($attribute, 'get_name')) {
+            $attr_name = strtolower($attribute->get_name());
+            if ($attr_name === 'color' || $attr_name === 'pa_color') {
+                $color = $product->get_attribute($attribute->get_name());
+                break;
+            }
+        }
+    }
+    // Fallback: try to get from short description
+    if (empty($color)) {
+        $short_desc = $product->get_short_description();
+        if (preg_match('/- ([^-]+)$/', $short_desc, $matches)) {
+            $color = trim($matches[1]);
+        }
+    }
 
     // Collect all images
     $all_images = array();
@@ -29,17 +77,23 @@ while (have_posts()) : the_post();
     }
 ?>
 
-<main class="site-main">
-    <div class="container">
+<main class="page-wrapper single-product-page">
+    <div class="page-inner">
+        <!-- Breadcrumb -->
+        <?php woocommerce_breadcrumb(); ?>
+
         <div class="single-product-layout">
 
             <!-- Product Gallery -->
             <div class="product-gallery">
                 <div class="product-gallery-main" id="gallery-main">
+                    <?php if (!$product->is_in_stock()) : ?>
+                        <div class="sold-ribbon"></div>
+                    <?php endif; ?>
                     <?php if ($main_image_id) : ?>
                         <?php echo wp_get_attachment_image($main_image_id, 'large', false, array('id' => 'main-product-image')); ?>
                     <?php else : ?>
-                        <div class="skeleton" style="width:100%;height:100%;"></div>
+                        <div class="skeleton"></div>
                     <?php endif; ?>
                 </div>
 
@@ -68,40 +122,95 @@ while (have_posts()) : the_post();
 
                 <div class="product-price"><?php echo $product->get_price_html(); ?></div>
 
-                <?php if ($condition) : ?>
-                    <div class="product-condition"><?php echo esc_html($condition); ?></div>
-                <?php endif; ?>
+                <!-- Condition & Authentication -->
+                <div class="product-meta-row">
+                    <?php if ($condition) : ?>
+                        <div class="condition-group">
+                            <span class="condition-badge">Condition <?php echo esc_html($condition_code); ?></span>
+                            <span class="condition-label"><?php echo esc_html($condition); ?></span>
+                        </div>
+                    <?php endif; ?>
+                    <div class="authenticated-badge">
+                        <span class="material-symbols-outlined">verified</span>
+                        <span>Authenticated</span>
+                    </div>
+                </div>
 
+                <!-- Description -->
                 <?php if ($product->get_description()) : ?>
-                    <div class="product-description">
-                        <?php echo wp_kses_post($product->get_description()); ?>
+                    <div class="product-section">
+                        <h3 class="product-section-title">Description</h3>
+                        <div class="product-description">
+                            <?php echo wp_kses_post($product->get_description()); ?>
+                        </div>
                     </div>
                 <?php endif; ?>
 
-                <div class="shipping-note">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="1" y="3" width="15" height="13"></rect>
-                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-                        <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                        <circle cx="18.5" cy="18.5" r="2.5"></circle>
-                    </svg>
-                    <span>Free Worldwide Shipping &middot; Tracking Included</span>
+                <!-- Details -->
+                <?php
+                // Get additional product attributes
+                $material = $product->get_attribute('material') ?: $product->get_attribute('pa_material');
+                $hardware = $product->get_attribute('hardware') ?: $product->get_attribute('pa_hardware');
+                $size = $product->get_attribute('size') ?: $product->get_attribute('pa_size');
+
+                if ($material || $hardware || $size || $color) :
+                ?>
+                    <div class="product-section">
+                        <h3 class="product-section-title">Details</h3>
+                        <div class="product-details-grid">
+                            <?php if ($material) : ?>
+                            <div class="detail-item">
+                                <span class="detail-label">Material</span>
+                                <span class="detail-value"><?php echo esc_html($material); ?></span>
+                            </div>
+                            <?php endif; ?>
+                            <?php if ($hardware) : ?>
+                            <div class="detail-item">
+                                <span class="detail-label">Hardware</span>
+                                <span class="detail-value"><?php echo esc_html($hardware); ?></span>
+                            </div>
+                            <?php endif; ?>
+                            <?php if ($size) : ?>
+                            <div class="detail-item">
+                                <span class="detail-label">Size</span>
+                                <span class="detail-value"><?php echo esc_html($size); ?></span>
+                            </div>
+                            <?php endif; ?>
+                            <?php if ($color) : ?>
+                            <div class="detail-item">
+                                <span class="detail-label">Color</span>
+                                <span class="detail-value"><?php echo esc_html($color); ?></span>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Add to Cart & Wishlist -->
+                <div class="product-actions">
+                    <?php if ($product->is_in_stock()) : ?>
+                        <button class="btn-add-to-cart" id="add-to-cart-btn" data-product-id="<?php echo esc_attr($product_id); ?>">
+                            <span class="material-symbols-outlined">shopping_bag</span>
+                            Add to Bag
+                        </button>
+                    <?php endif; ?>
+                    <button class="btn-add-to-wishlist" data-product-id="<?php echo esc_attr($product_id); ?>">
+                        <span class="material-symbols-outlined">favorite</span>
+                        Add to Wishlist
+                    </button>
                 </div>
 
-                <?php if ($product->is_in_stock()) : ?>
-                    <button class="btn-primary" id="add-to-cart-btn" data-product-id="<?php echo esc_attr($product_id); ?>">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                            <line x1="3" y1="6" x2="21" y2="6"></line>
-                            <path d="M16 10a4 4 0 0 1-8 0"></path>
-                        </svg>
-                        Add to Cart
-                    </button>
-                <?php else : ?>
-                    <button class="btn-primary" disabled style="opacity:0.5;cursor:not-allowed;">
-                        Sold Out
-                    </button>
-                <?php endif; ?>
+                <!-- Shipping Info -->
+                <div class="shipping-info">
+                    <div class="shipping-info-item">
+                        <span class="material-symbols-outlined">local_shipping</span>
+                        <span>Free worldwide shipping on all orders</span>
+                    </div>
+                    <div class="shipping-info-item">
+                        <span class="material-symbols-outlined">shield</span>
+                        <span>Buyer protection &amp; 14-day return policy</span>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -110,7 +219,7 @@ while (have_posts()) : the_post();
         <?php
         $related_args = array(
             'post_type'      => 'product',
-            'posts_per_page' => 4,
+            'posts_per_page' => 5,
             'post__not_in'   => array($product_id),
             'post_status'    => 'publish',
             'orderby'        => 'rand',
@@ -152,6 +261,9 @@ function wotChangeImage(thumb) {
     const mainImg = document.getElementById('main-product-image');
     const fullUrl = thumb.dataset.full;
     if (mainImg && fullUrl) {
+        // Remove srcset to prevent browser from using it instead of src
+        mainImg.removeAttribute('srcset');
+        mainImg.removeAttribute('sizes');
         mainImg.src = fullUrl;
         document.querySelectorAll('.product-gallery-thumbs .thumb').forEach(t => t.classList.remove('active'));
         thumb.classList.add('active');
@@ -195,7 +307,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     setTimeout(() => {
                         btn.disabled = false;
-                        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg> Add to Cart';
+                        btn.innerHTML = '<span class="material-symbols-outlined">shopping_bag</span> Add to Bag';
                     }, 2000);
                 } else {
                     btn.disabled = false;

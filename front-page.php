@@ -33,7 +33,7 @@ get_header();
                 <?php
                 $new_products = new WP_Query(array(
                     'post_type'      => 'product',
-                    'posts_per_page' => 8,
+                    'posts_per_page' => 10,
                     'orderby'        => 'date',
                     'order'          => 'DESC',
                     'post_status'    => 'publish',
@@ -47,11 +47,11 @@ get_header();
                     wp_reset_postdata();
                 else :
                     // Placeholder cards when no products exist
-                    for ($i = 0; $i < 4; $i++) :
+                    for ($i = 0; $i < 5; $i++) :
                 ?>
                     <div class="product-card">
                         <div class="product-card-image">
-                            <div class="skeleton" style="width:100%;height:100%;"></div>
+                            <div class="skeleton"></div>
                         </div>
                         <div class="product-card-info">
                             <div class="product-card-brand">Brand</div>
@@ -64,7 +64,7 @@ get_header();
                 endif;
                 ?>
             </div>
-            <div style="text-align:center; margin-top:var(--space-xl);">
+            <div class="section-cta">
                 <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>" class="btn-secondary">View All Products</a>
             </div>
         </div>
@@ -108,7 +108,7 @@ get_header();
                 <?php
                 $featured = new WP_Query(array(
                     'post_type'      => 'product',
-                    'posts_per_page' => 4,
+                    'posts_per_page' => 5,
                     'post_status'    => 'publish',
                     'tax_query'      => array(
                         array(
@@ -129,7 +129,7 @@ get_header();
                     // Fallback: show random products
                     $random_products = new WP_Query(array(
                         'post_type'      => 'product',
-                        'posts_per_page' => 4,
+                        'posts_per_page' => 5,
                         'orderby'        => 'rand',
                         'post_status'    => 'publish',
                     ));
@@ -141,11 +141,11 @@ get_header();
                         endwhile;
                         wp_reset_postdata();
                     else :
-                        for ($i = 0; $i < 4; $i++) :
+                        for ($i = 0; $i < 5; $i++) :
                 ?>
                     <div class="product-card">
                         <div class="product-card-image">
-                            <div class="skeleton" style="width:100%;height:100%;"></div>
+                            <div class="skeleton"></div>
                         </div>
                         <div class="product-card-info">
                             <div class="product-card-brand">Brand</div>

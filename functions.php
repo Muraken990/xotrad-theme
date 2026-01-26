@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('WOT_VERSION', '1.0.0');
+define('WOT_VERSION', '2.14.22');
 define('WOT_DIR', get_template_directory());
 define('WOT_URI', get_template_directory_uri());
 
@@ -53,7 +53,7 @@ function wot_scripts() {
     // Google Fonts
     wp_enqueue_style(
         'wot-google-fonts',
-        'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500&display=swap',
+        'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Raleway:wght@300;400;500;600;700&display=swap',
         array(),
         null
     );
@@ -116,7 +116,37 @@ add_action('after_setup_theme', 'wot_woocommerce_setup');
 add_filter('woocommerce_enqueue_styles', '__return_empty_array');
 
 /**
- * Change products per page
+ * Disable WooCommerce block-based cart and checkout
+ * Force classic shortcode templates
+ */
+add_filter('woocommerce_use_blockified_product_grid_block_type', '__return_false');
+
+/**
+ * Override cart and checkout page templates
+ */
+function wot_woocommerce_page_templates($template) {
+    // Cart page
+    if (function_exists('is_cart') && is_cart()) {
+        $custom_template = get_template_directory() . '/page-cart.php';
+        if (file_exists($custom_template)) {
+            return $custom_template;
+        }
+    }
+
+    // Checkout page (including order-received/thankyou)
+    if (function_exists('is_checkout') && is_checkout()) {
+        $custom_template = get_template_directory() . '/page-checkout.php';
+        if (file_exists($custom_template)) {
+            return $custom_template;
+        }
+    }
+
+    return $template;
+}
+add_filter('template_include', 'wot_woocommerce_page_templates', 999);
+
+/**
+ * Change products per page (12 for 4x3 grid on collection page)
  */
 function wot_products_per_page($cols) {
     return 12;
@@ -124,7 +154,7 @@ function wot_products_per_page($cols) {
 add_filter('loop_shop_per_page', 'wot_products_per_page');
 
 /**
- * Change product columns
+ * Change product columns (4 columns for collection layout)
  */
 function wot_loop_columns() {
     return 4;
@@ -141,15 +171,32 @@ function wot_cart_count_fragment($fragments) {
 add_filter('woocommerce_add_to_cart_fragments', 'wot_cart_count_fragment');
 
 /**
- * Custom breadcrumb separator
+ * Custom breadcrumb settings
+ * 共通クラス .page-breadcrumb を使用
  */
 function wot_breadcrumb_defaults($defaults) {
     $defaults['delimiter'] = ' <span class="breadcrumb-sep">/</span> ';
-    $defaults['wrap_before'] = '<nav class="wot-breadcrumb"><div class="container">';
-    $defaults['wrap_after'] = '</div></nav>';
+    $defaults['wrap_before'] = '<nav class="page-breadcrumb">';
+    $defaults['wrap_after'] = '</nav>';
+    $defaults['before'] = '<span class="breadcrumb-item">';
+    $defaults['after'] = '</span>';
     return $defaults;
 }
 add_filter('woocommerce_breadcrumb_defaults', 'wot_breadcrumb_defaults');
+
+/**
+ * Customize breadcrumb labels
+ */
+function wot_breadcrumb_labels($crumbs) {
+    foreach ($crumbs as $key => $crumb) {
+        // Change "Order received" to "Order Confirmed"
+        if ($crumb[0] === 'Order received') {
+            $crumbs[$key][0] = 'Order Confirmed';
+        }
+    }
+    return $crumbs;
+}
+add_filter('woocommerce_get_breadcrumb', 'wot_breadcrumb_labels');
 
 /**
  * Remove default WooCommerce hooks and reposition
@@ -162,8 +209,9 @@ function wot_woocommerce_hooks() {
     // Remove sidebar
     remove_action('woocommerce_sidebar', 'woocommerce_get_sidebar', 10);
 
-    // Remove default sorting
+    // Remove default sorting and result count (we handle these in archive-product.php)
     remove_action('woocommerce_before_shop_loop', 'woocommerce_result_count', 20);
+    remove_action('woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30);
 
     // Remove related products default output
     remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20);
@@ -302,3 +350,196 @@ add_filter('woocommerce_currency_symbol', 'wot_currency_symbol', 10, 2);
  * Include WooCommerce template functions
  */
 require_once WOT_DIR . '/inc/woocommerce.php';
+
+/**
+ * Collection Page Filter Query Handler
+ * Filters products based on URL parameters
+ */
+function wot_collection_filter_query($query) {
+    if (!is_admin() && $query->is_main_query() && (is_shop() || is_product_category() || is_product_tag())) {
+        $tax_query = array();
+
+        // Brand filter
+        if (!empty($_GET['brand'])) {
+            $brands = is_array($_GET['brand']) ? $_GET['brand'] : array($_GET['brand']);
+            $brands = array_map('sanitize_text_field', $brands);
+            $tax_query[] = array(
+                'taxonomy' => 'product_brand',
+                'field'    => 'slug',
+                'terms'    => $brands,
+                'operator' => 'IN',
+            );
+        }
+
+        // Condition filter
+        if (!empty($_GET['condition'])) {
+            $conditions = is_array($_GET['condition']) ? $_GET['condition'] : array($_GET['condition']);
+            $conditions = array_map('sanitize_text_field', $conditions);
+            $tax_query[] = array(
+                'taxonomy' => 'product_condition',
+                'field'    => 'slug',
+                'terms'    => $conditions,
+                'operator' => 'IN',
+            );
+        }
+
+        if (!empty($tax_query)) {
+            $tax_query['relation'] = 'AND';
+            $query->set('tax_query', $tax_query);
+        }
+
+        // Sorting
+        if (!empty($_GET['orderby'])) {
+            $orderby = sanitize_text_field($_GET['orderby']);
+            switch ($orderby) {
+                case 'price-asc':
+                    $query->set('orderby', 'meta_value_num');
+                    $query->set('meta_key', '_price');
+                    $query->set('order', 'ASC');
+                    break;
+                case 'price-desc':
+                    $query->set('orderby', 'meta_value_num');
+                    $query->set('meta_key', '_price');
+                    $query->set('order', 'DESC');
+                    break;
+                case 'title':
+                    $query->set('orderby', 'title');
+                    $query->set('order', 'ASC');
+                    break;
+                case 'date':
+                default:
+                    $query->set('orderby', 'date');
+                    $query->set('order', 'DESC');
+                    break;
+            }
+        }
+    }
+}
+add_action('pre_get_posts', 'wot_collection_filter_query');
+
+/**
+ * Get active filters from URL
+ */
+function wot_get_active_filters() {
+    $active = array();
+
+    if (!empty($_GET['brand'])) {
+        $brands = is_array($_GET['brand']) ? $_GET['brand'] : array($_GET['brand']);
+        foreach ($brands as $brand_slug) {
+            $term = get_term_by('slug', sanitize_text_field($brand_slug), 'product_brand');
+            if ($term) {
+                $active[] = array(
+                    'type'  => 'brand',
+                    'slug'  => $term->slug,
+                    'name'  => $term->name,
+                    'label' => 'Brand: ' . $term->name,
+                );
+            }
+        }
+    }
+
+    if (!empty($_GET['condition'])) {
+        $conditions = is_array($_GET['condition']) ? $_GET['condition'] : array($_GET['condition']);
+        foreach ($conditions as $condition_slug) {
+            $term = get_term_by('slug', sanitize_text_field($condition_slug), 'product_condition');
+            if ($term) {
+                $active[] = array(
+                    'type'  => 'condition',
+                    'slug'  => $term->slug,
+                    'name'  => $term->name,
+                    'label' => 'Condition: ' . $term->name,
+                );
+            }
+        }
+    }
+
+    return $active;
+}
+
+/**
+ * Generate URL to remove a specific filter
+ */
+function wot_remove_filter_url($type, $slug) {
+    $params = $_GET;
+
+    if (isset($params[$type])) {
+        if (is_array($params[$type])) {
+            $params[$type] = array_diff($params[$type], array($slug));
+            if (empty($params[$type])) {
+                unset($params[$type]);
+            }
+        } else {
+            unset($params[$type]);
+        }
+    }
+
+    $base_url = get_permalink(wc_get_page_id('shop'));
+    return !empty($params) ? add_query_arg($params, $base_url) : $base_url;
+}
+
+/**
+ * Check if a filter is currently active
+ */
+function wot_is_filter_active($type, $slug) {
+    if (empty($_GET[$type])) {
+        return false;
+    }
+
+    $values = is_array($_GET[$type]) ? $_GET[$type] : array($_GET[$type]);
+    return in_array($slug, $values);
+}
+
+/**
+ * Generate URL to add a filter
+ */
+function wot_add_filter_url($type, $slug) {
+    $params = $_GET;
+
+    if (!isset($params[$type])) {
+        $params[$type] = array();
+    } elseif (!is_array($params[$type])) {
+        $params[$type] = array($params[$type]);
+    }
+
+    if (!in_array($slug, $params[$type])) {
+        $params[$type][] = $slug;
+    }
+
+    $base_url = get_permalink(wc_get_page_id('shop'));
+    return add_query_arg($params, $base_url);
+}
+
+/**
+ * Generate URL to toggle a filter (add if not active, remove if active)
+ */
+function wot_toggle_filter_url($type, $slug) {
+    if (wot_is_filter_active($type, $slug)) {
+        return wot_remove_filter_url($type, $slug);
+    }
+    return wot_add_filter_url($type, $slug);
+}
+
+/**
+ * Get clear all filters URL
+ */
+function wot_clear_filters_url() {
+    $params = $_GET;
+    unset($params['brand']);
+    unset($params['condition']);
+
+    $base_url = get_permalink(wc_get_page_id('shop'));
+    return !empty($params) ? add_query_arg($params, $base_url) : $base_url;
+}
+
+/**
+ * Get product count for a specific taxonomy term
+ */
+function wot_get_term_product_count($taxonomy, $term_slug) {
+    $term = get_term_by('slug', $term_slug, $taxonomy);
+    if ($term) {
+        return $term->count;
+    }
+    return 0;
+}
+
+/* Order Confirmation Modal - Moved to plugin: wc-order-confirmation-modal */

@@ -129,6 +129,6 @@ add_action('woocommerce_cart_is_empty', 'wot_empty_cart_message', 10);
  * Add custom thank you page content
  */
 function wot_thankyou_text($text, $order) {
-    return $text . '<p style="margin-top:1em;">Your luxury item will be carefully packaged and shipped from Japan with tracking. You will receive a shipping confirmation email with your tracking number.</p>';
+    return $text . '<span class="thankyou-shipping-note">Your luxury item will be carefully packaged and shipped from Japan with tracking. You will receive a shipping confirmation email with your tracking number.</span>';
 }
 add_filter('woocommerce_thankyou_order_received_text', 'wot_thankyou_text', 10, 2);
