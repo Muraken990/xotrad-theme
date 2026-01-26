@@ -1955,7 +1955,17 @@ button {
   font-weight: 400;
   font-style: italic;
   margin-bottom: var(--space-3xl) !important;
+  padding-bottom: var(--space-xl) !important;
   display: block;
+}
+
+/* Add spacing to form wrapper after h3 */
+.woocommerce-account .woocommerce-address-fields__field-wrapper {
+  padding-top: var(--space-xl);
+}
+
+.woocommerce-account .woocommerce-address-fields__field-wrapper .form-row:first-child {
+  margin-top: var(--space-lg);
 }
 
 /* Password change fieldset */
