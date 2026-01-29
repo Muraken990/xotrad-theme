@@ -347,6 +347,45 @@ function wot_currency_symbol($symbol, $currency) {
 add_filter('woocommerce_currency_symbol', 'wot_currency_symbol', 10, 2);
 
 /**
+ * Meta (Facebook/Instagram) Checkout URL Handler
+ * Parses ?products=SKU:QTY,SKU:QTY&coupon=CODE and redirects to WooCommerce checkout
+ */
+function wot_meta_checkout_handler() {
+    if (!isset($_GET['products']) || !class_exists('WooCommerce')) {
+        return;
+    }
+
+    $products_param = sanitize_text_field($_GET['products']);
+    $coupon = isset($_GET['coupon']) ? sanitize_text_field($_GET['coupon']) : '';
+
+    WC()->cart->empty_cart();
+
+    $entries = explode(',', $products_param);
+    foreach ($entries as $entry) {
+        $parts = explode(':', $entry);
+        $sku = $parts[0] ?? '';
+        $qty = intval($parts[1] ?? 1);
+
+        if (empty($sku) || $qty < 1) {
+            continue;
+        }
+
+        $product_id = wc_get_product_id_by_sku($sku);
+        if ($product_id) {
+            WC()->cart->add_to_cart($product_id, $qty);
+        }
+    }
+
+    if ($coupon && wc_get_coupon_id_by_code($coupon)) {
+        WC()->cart->apply_coupon($coupon);
+    }
+
+    wp_safe_redirect(wc_get_checkout_url());
+    exit;
+}
+add_action('template_redirect', 'wot_meta_checkout_handler');
+
+/**
  * Include WooCommerce template functions
  */
 require_once WOT_DIR . '/inc/woocommerce.php';
