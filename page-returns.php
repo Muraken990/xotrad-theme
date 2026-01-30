@@ -10,38 +10,84 @@ get_header();
 ?>
 
 <main class="site-main">
-    <div class="container page-content">
-        <h1>Returns</h1>
+    <div class="container">
+        <!-- Breadcrumb -->
+        <nav class="page-breadcrumb">
+            <a href="<?php echo esc_url(home_url('/')); ?>">Home</a>
+            <span class="breadcrumb-sep">/</span>
+            <span>Refunds & Returns</span>
+        </nav>
 
-        <h2>30-Day Return Policy</h2>
-        <p>We want you to be completely satisfied with your purchase. If for any reason you're not happy with your item, you may return it within 30 days of delivery for a full refund.</p>
+        <!-- Page Header -->
+        <header class="page-header">
+            <span class="section-label"><?php esc_html_e('Legal Information', 'worldonetrading'); ?></span>
+            <h1 class="page-title">Refunds & Returns</h1>
+            <p class="page-subtitle">Last updated: January 29, 2026</p>
+        </header>
 
-        <h2>Return Conditions</h2>
-        <p>To be eligible for a return:</p>
-        <ul>
-            <li>The item must be in the same condition as when you received it</li>
-            <li>The item must not have been worn, altered, or damaged after delivery</li>
-            <li>You must contact us within 30 days of receiving your order</li>
-            <li>Original packaging should be included when possible</li>
-        </ul>
+        <!-- Page Content -->
+        <article class="legal-content">
+            <div class="entry-content">
+                <h2>1. Return Policy</h2>
+                <p>Due to the nature of pre-owned items, we do not accept returns or exchanges except in the following cases:</p>
+                <ul>
+                    <li>Item arrived damaged during shipping</li>
+                    <li>Item significantly differs from the description</li>
+                </ul>
 
-        <h2>How to Return</h2>
-        <p>To initiate a return:</p>
-        <ul>
-            <li>Contact us at returns@xotrad.com with your order number</li>
-            <li>We will provide you with return shipping instructions</li>
-            <li>Ship the item back to us using the provided instructions</li>
-            <li>Once we receive and inspect the item, your refund will be processed</li>
-        </ul>
+                <h2>2. How to Report an Issue</h2>
+                <p>If you receive a defective or damaged item, please contact us at <a href="mailto:info@xotrad.com">info@xotrad.com</a> within <strong>7 days of delivery</strong> with:</p>
+                <ul>
+                    <li>Your order number</li>
+                    <li>Clear photos showing the issue</li>
+                    <li>A brief description of the problem</li>
+                </ul>
 
-        <h2>Refund Processing</h2>
-        <p>Refunds are processed within 5-7 business days after we receive your returned item. The refund will be issued to your original payment method. Please allow additional time for your bank or credit card company to process the refund.</p>
+                <h2>3. Refund Process</h2>
+                <p>Once we verify the issue, we will:</p>
+                <ul>
+                    <li>Provide return shipping instructions</li>
+                    <li>Cover all return shipping costs</li>
+                    <li>Issue a full refund within 5-7 business days after receiving the returned item</li>
+                </ul>
+                <p>Refunds will be issued to the original payment method.</p>
 
-        <h2>Return Shipping</h2>
-        <p>Return shipping costs are the responsibility of the buyer, unless the item was misrepresented or arrives damaged. In those cases, we will cover return shipping.</p>
+                <h2>4. Final Sale</h2>
+                <p><strong>All sales are final for items that match their description.</strong></p>
+                <p>We carefully inspect and accurately describe each item before listing. Please review all photos and descriptions carefully before purchasing.</p>
 
-        <h2>Damaged or Incorrect Items</h2>
-        <p>If your item arrives damaged or is not as described, please contact us immediately with photos of the issue. We will arrange a return and full refund, including return shipping costs.</p>
+                <h2>5. No Exchanges</h2>
+                <p>We do not offer exchanges. Each item in our inventory is unique.</p>
+
+                <h2>6. Contact</h2>
+                <p>For inquiries, please email <a href="mailto:info@xotrad.com">info@xotrad.com</a>.</p>
+            </div>
+        </article>
+
+        <!-- Related Legal Links -->
+        <nav class="legal-related">
+            <span class="section-label"><?php esc_html_e('Other Legal Pages', 'worldonetrading'); ?></span>
+            <div class="legal-related-links">
+                <?php
+                $legal_pages = array(
+                    'terms-conditions' => 'Terms & Conditions',
+                    'payment-shipping' => 'Payment & Shipping'
+                );
+
+                foreach ($legal_pages as $slug => $title) :
+                    $page = get_page_by_path($slug);
+                    if ($page) :
+                ?>
+                    <a href="<?php echo esc_url(get_permalink($page->ID)); ?>">
+                        <span><?php echo esc_html($title); ?></span>
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </a>
+                <?php
+                    endif;
+                endforeach;
+                ?>
+            </div>
+        </nav>
     </div>
 </main>
 
