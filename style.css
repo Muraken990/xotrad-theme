@@ -303,22 +303,6 @@ button {
   color: #111827;
 }
 
-.logo-dark {
-  display: block;
-}
-
-.logo-light {
-  display: none;
-}
-
-[data-theme="light"] .logo-dark {
-  display: none;
-}
-
-[data-theme="light"] .logo-light {
-  display: block;
-}
-
 /* Navigation */
 .main-nav {
   display: none;

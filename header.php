@@ -14,8 +14,7 @@
     <div class="header-inner">
         <div class="header-left">
             <a href="<?php echo esc_url(home_url('/')); ?>" class="site-logo">
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo-dark.png" alt="Xotrad" class="logo-img logo-dark">
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo-light.png" alt="Xotrad" class="logo-img logo-light">
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo-transparent.png" alt="Xotrad" class="logo-img">
                 <span class="logo-text">Xotrad</span>
             </a>
             <nav class="main-nav">
