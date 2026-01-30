@@ -348,11 +348,16 @@ add_filter('woocommerce_currency_symbol', 'wot_currency_symbol', 10, 2);
 
 /**
  * Meta (Facebook/Instagram) Checkout URL Handler
- * Parses ?products=SKU:QTY,SKU:QTY&coupon=CODE and redirects to WooCommerce checkout
+ * Parses ?products=ID:QTY,ID:QTY&coupon=CODE and redirects to WooCommerce checkout
+ * ID can be a SKU or WooCommerce product ID
  */
 function wot_meta_checkout_handler() {
     if (!isset($_GET['products']) || !class_exists('WooCommerce')) {
         return;
+    }
+
+    if (is_null(WC()->cart)) {
+        wc_load_cart();
     }
 
     $products_param = sanitize_text_field($_GET['products']);
@@ -363,14 +368,22 @@ function wot_meta_checkout_handler() {
     $entries = explode(',', $products_param);
     foreach ($entries as $entry) {
         $parts = explode(':', $entry);
-        $sku = $parts[0] ?? '';
+        $id = $parts[0] ?? '';
         $qty = intval($parts[1] ?? 1);
 
-        if (empty($sku) || $qty < 1) {
+        if (empty($id) || $qty < 1) {
             continue;
         }
 
-        $product_id = wc_get_product_id_by_sku($sku);
+        // Try SKU first, then product ID
+        $product_id = wc_get_product_id_by_sku($id);
+        if (!$product_id && is_numeric($id)) {
+            $product = wc_get_product(intval($id));
+            if ($product) {
+                $product_id = $product->get_id();
+            }
+        }
+
         if ($product_id) {
             WC()->cart->add_to_cart($product_id, $qty);
         }

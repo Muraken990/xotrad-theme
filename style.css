@@ -285,15 +285,9 @@ button {
   color: var(--accent);
 }
 
-.logo-icon {
-  width: 28px;
-  height: 28px;
-  color: var(--accent);
-}
-
-.logo-icon svg {
-  width: 100%;
-  height: 100%;
+.logo-img {
+  height: 56px;
+  width: auto;
 }
 
 .logo-text {
@@ -307,6 +301,22 @@ button {
 
 [data-theme="light"] .logo-text {
   color: #111827;
+}
+
+.logo-dark {
+  display: block;
+}
+
+.logo-light {
+  display: none;
+}
+
+[data-theme="light"] .logo-dark {
+  display: none;
+}
+
+[data-theme="light"] .logo-light {
+  display: block;
 }
 
 /* Navigation */
@@ -2524,15 +2534,9 @@ button {
   gap: 12px;
 }
 
-.footer-logo-icon {
-  width: 24px;
-  height: 24px;
-  color: var(--accent);
-}
-
-.footer-logo-icon svg {
-  width: 100%;
-  height: 100%;
+.footer-logo .logo-img {
+  height: 44px;
+  width: auto;
 }
 
 .footer-logo-text {
