@@ -93,6 +93,18 @@ $end_product = min($current_page * $products_per_page, $total_products);
                         <div class="filter-group-content">
                             <?php foreach ($brands as $brand) :
                                 $is_active = wot_is_filter_active('brand', $brand->slug);
+                                // Get real count from DB to avoid WC filter issues
+                                $real_count = $brand->count;
+                                if ($real_count == 0) {
+                                    global $wpdb;
+                                    $real_count = $wpdb->get_var($wpdb->prepare("
+                                        SELECT COUNT(DISTINCT tr.object_id)
+                                        FROM {$wpdb->term_relationships} tr
+                                        JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id
+                                        JOIN {$wpdb->posts} p ON p.ID = tr.object_id
+                                        WHERE tt.term_id = %d AND p.post_status = 'publish' AND p.post_type = 'product'
+                                    ", $brand->term_id));
+                                }
                             ?>
                             <label class="filter-checkbox <?php echo $is_active ? 'active' : ''; ?>">
                                 <input type="checkbox"
@@ -101,7 +113,7 @@ $end_product = min($current_page * $products_per_page, $total_products);
                                        data-filter-type="brand"
                                        <?php checked($is_active); ?>>
                                 <span class="checkbox-label"><?php echo esc_html($brand->name); ?></span>
-                                <span class="count">(<?php echo esc_html($brand->count); ?>)</span>
+                                <span class="count">(<?php echo esc_html($real_count); ?>)</span>
                             </label>
                             <?php endforeach; ?>
                         </div>

@@ -20,7 +20,7 @@ get_header();
             <p class="hero-subtitle">Discover authenticated pre-owned luxury from the world's most prestigious maisons. Every piece verified, every detail perfected.</p>
             <div class="hero-buttons">
                 <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>" class="btn-gold">Shop Collection</a>
-                <a href="<?php echo esc_url(home_url('/brands')); ?>" class="btn-outline">View Brands</a>
+                <a href="<?php echo esc_url(home_url('/brands')); ?>" class="btn-outline" style="display:none;">View Brands</a>
             </div>
         </div>
     </section>
@@ -76,26 +76,47 @@ get_header();
             <h2 class="section-title">Shop by Brand</h2>
             <div class="brands-grid">
                 <?php
-                $brands = array(
-                    'hermes'        => 'HERMES',
-                    'gucci'         => 'GUCCI',
-                    'dior'          => 'DIOR',
-                    'louis-vuitton' => 'LOUIS VUITTON',
-                    'chanel'        => 'CHANEL',
-                    'prada'         => 'PRADA',
-                    'burberry'      => 'BURBERRY',
-                    'fendi'         => 'FENDI',
-                    'celine'        => 'CELINE',
-                    'givenchy'      => 'GIVENCHY',
-                );
+                // Dynamic: fetch brands with products first
+                $brand_terms = get_terms(array(
+                    'taxonomy'   => 'product_brand',
+                    'hide_empty' => true,
+                    'orderby'    => 'count',
+                    'order'      => 'DESC',
+                ));
 
-                foreach ($brands as $slug => $name) :
-                    $brand_url = home_url('/brand/' . $slug);
+                if (!is_wp_error($brand_terms) && !empty($brand_terms)) :
+                    foreach ($brand_terms as $brand_term) :
+                        $brand_url = get_term_link($brand_term);
+                ?>
+                    <a href="<?php echo esc_url($brand_url); ?>" class="brand-card">
+                        <?php echo esc_html(strtoupper($brand_term->name)); ?>
+                    </a>
+                <?php
+                    endforeach;
+                else :
+                    // Fallback when no brand terms exist yet
+                    $default_brands = array(
+                        'salvatore-ferragamo' => 'SALVATORE FERRAGAMO',
+                        'hermes'        => 'HERMES',
+                        'gucci'         => 'GUCCI',
+                        'louis-vuitton' => 'LOUIS VUITTON',
+                        'chanel'        => 'CHANEL',
+                        'prada'         => 'PRADA',
+                        'burberry'      => 'BURBERRY',
+                        'fendi'         => 'FENDI',
+                        'celine'        => 'CELINE',
+                        'givenchy'      => 'GIVENCHY',
+                    );
+                    foreach ($default_brands as $slug => $name) :
+                        $brand_url = home_url('/brand/' . $slug);
                 ?>
                     <a href="<?php echo esc_url($brand_url); ?>" class="brand-card">
                         <?php echo esc_html($name); ?>
                     </a>
-                <?php endforeach; ?>
+                <?php
+                    endforeach;
+                endif;
+                ?>
             </div>
         </div>
     </section>

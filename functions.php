@@ -223,6 +223,7 @@ add_action('init', 'wot_woocommerce_hooks');
  */
 function wot_get_brands() {
     $brands = array(
+        'SALVATORE FERRAGAMO' => 'Salvatore Ferragamo',
         'HERMES'        => 'Hermès',
         'GUCCI'         => 'Gucci',
         'DIOR'          => 'Dior',
@@ -247,6 +248,7 @@ function wot_register_brand_taxonomy() {
         'public'       => true,
         'show_in_rest' => true,
         'rewrite'      => array('slug' => 'brand'),
+        'update_count_callback' => '_update_post_term_count',
     ));
 }
 add_action('init', 'wot_register_brand_taxonomy');
