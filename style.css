@@ -291,17 +291,29 @@ button {
   width: auto;
 }
 
+/* ダークモード（デフォルト）: 白ロゴ表示、黒ロゴ非表示 */
+.logo-for-dark {
+  display: block;
+}
+.logo-for-light {
+  display: none;
+}
+
+/* ライトモード: 黒ロゴ表示、白ロゴ非表示 */
+[data-theme="light"] .logo-for-dark {
+  display: none;
+}
+[data-theme="light"] .logo-for-light {
+  display: block;
+}
+
 .logo-text {
   font-family: var(--font-heading);
   font-size: 1.125rem;
   font-weight: 900;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--accent);
-}
-
-[data-theme="light"] .logo-text {
-  color: #111827;
+  color: var(--text-primary);
 }
 
 /* Navigation */
@@ -1052,6 +1064,20 @@ button {
   height: 100%;
   object-fit: cover;
   transition: transform var(--transition-image);
+}
+
+.product-card-image .primary-image {
+  z-index: 1;
+}
+
+.product-card-image .hover-image {
+  z-index: 2;
+  opacity: 0;
+  transition: opacity var(--transition-normal), transform var(--transition-image);
+}
+
+.product-card:hover .product-card-image .hover-image {
+  opacity: 1;
 }
 
 .product-card:hover .product-card-image img,
@@ -2540,11 +2566,7 @@ button {
   font-weight: 900;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--accent);
-}
-
-[data-theme="light"] .footer-logo-text {
-  color: #1a1a1a;
+  color: var(--text-primary);
 }
 
 .footer-description {

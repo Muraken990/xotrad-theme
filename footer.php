@@ -3,7 +3,8 @@
         <div class="footer-grid">
             <div class="footer-brand">
                 <div class="footer-logo">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo-transparent.png" alt="Xotrad" class="logo-img">
+                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo-dark.png" alt="Xotrad" class="logo-img logo-for-dark">
+                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo-light.png" alt="Xotrad" class="logo-img logo-for-light">
                     <span class="footer-logo-text">Xotrad</span>
                 </div>
                 <p class="footer-description">Authenticated luxury from Japan. Curated pre-owned pieces from the world's most prestigious maisons.</p>
